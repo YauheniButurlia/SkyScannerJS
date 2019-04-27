@@ -99,15 +99,24 @@ const styles = StyleSheet.create({
         },
   });
 /********************************************************************************************/
-  const mapStateToProps = state => {
-    let storedRepositories = state.data.map(repo => ({ key: repo.id, ...repo }));
-    return {
-      data: storedRepositories
-    };
-  };
+  const mapStateToProps = (state) => ({
+    data1: state.data1.map(),
+    data2: state.data2.map(),
+  });
  
-  const mapDispatchToProps = {
-    listRepos
-  };
+  const mapDispatchToProps = (dispatch) => ({
+    onRequest(index) {
+      dispatch(request(index));
+    },
+    onSuccess(index, data) {
+      dispatch(success(index, data));
+    },
+    onFailure(index, error) {
+      dispatch(failure(index, error));
+    },
+    onDelete(index) {
+      dispatch(del(index));
+    }
+  });
  
   export default connect(mapStateToProps, mapDispatchToProps)(Home);
