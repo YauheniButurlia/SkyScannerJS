@@ -1,5 +1,5 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import {Home} from './Home';
+import Home from './Home';
 import Details from './Details';
 
 const AppNavigator = createStackNavigator({

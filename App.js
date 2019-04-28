@@ -13,7 +13,8 @@ const client = axios.create({
   responseType: 'json'
 });
 */
-const store = createStore(reducer);//, applyMiddleware(axiosMiddleware(client))
+const initialState = { data1: [], data2: [], loading1: false, loading2: false, error1: null, error2: null };
+const store = createStore(reducer, initialState);//, applyMiddleware(axiosMiddleware(client))
 
 export default class App extends React.Component {
   render() {

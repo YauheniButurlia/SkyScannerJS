@@ -1,16 +1,16 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react-native';
-import {TabViewAnimated, TabView, SceneMap } from 'react-native-tab-view';
+import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
 
-import { listRepos } from './Reducer';
+import {request, del, success, failure} from './Actions';
 
 const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-01-01?inboundpartialdate=2019-09-01';
 const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
 
 
 
-export class Home extends React.Component {
+export default class Home extends React.Component {
     static navigationOptions = {
       title: 'Skyscanner',
       headerRight: <Button title={'Del'}
@@ -59,7 +59,12 @@ export class Home extends React.Component {
         case 'second':
           return <View style={{ backgroundColor: '#673ab7', flex: 1 }}>
           <FlatList
-            data={this.props.data2}
+            data={[
+              {key: 'James'},
+              {key: 'Harry'},
+              {key: 'Robert'},
+              {key: 'Henry'},
+              ]}
             renderItem={({item}) => <Text style={{color: 'red'}}>{item.key}</Text>}
           />
       </View>;
@@ -100,23 +105,23 @@ const styles = StyleSheet.create({
   });
 /********************************************************************************************/
   const mapStateToProps = (state) => ({
-    data1: state.data1.map(),
-    data2: state.data2.map(),
+    data1: state.data1,
+    data2: state.data2,
   });
  
   const mapDispatchToProps = (dispatch) => ({
-    onRequest(index) {
-      dispatch(request(index));
+    onReques(id) {
+      dispatch(request(id));
     },
-    onSuccess(index, data) {
-      dispatch(success(index, data));
+    onSucces(id, info) {
+      dispatch(success(id, info));
     },
-    onFailure(index, error) {
-      dispatch(failure(index, error));
+    onFailur(id, err) {
+      dispatch(failure(id, err));
     },
-    onDelete(index) {
-      dispatch(del(index));
+    onDelet(id) {
+      dispatch(del(id));
     }
   });
  
-  export default connect(mapStateToProps, mapDispatchToProps)(Home);
+  connect(mapStateToProps, mapDispatchToProps)(Home);

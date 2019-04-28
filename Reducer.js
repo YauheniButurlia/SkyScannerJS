@@ -1,17 +1,15 @@
-import {Alert} from 'react-native';
-
 export const REQUEST = 'try_download';
 export const REQUEST_SUCCESS = 'downloaded';
 export const REQUEST_FAILURE = 'failed to download';
 export const DELETE = 'delete from store';
 
-export default function reducer(state = { data1: [], data2: [], loading1: false, loading2: false, error1: '', error2: '' }, action) {
+export default function reducer(state, action) {
     switch (action.type) {
-        case REQUEST:{
+        case REQUEST: {
                if(action.index === 1) {
-                 return {...state, loading1: true);
+                 return {...state, loading1: true};
                } else {
-                 return {...state, loading2: true);
+                 return {...state, loading2: true};
                }
              }
         case REQUEST_SUCCESS: {
