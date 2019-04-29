@@ -43,8 +43,8 @@ export class Home extends React.Component {
       })
     .then((response) => response.json())
     .then((responseJson) => 
-     this.props.success(this.state.index,responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
-    ).catch((err) => this.props.failure(this.state.index, err.message));
+     this.props.success(index,responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
+    ).catch((err) => this.props.failure(index, err.message));
       }
        else {
         fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm', {
@@ -56,8 +56,8 @@ export class Home extends React.Component {
         })
       .then((response) => response.json())
       .then((responseJson) => 
-       this.props.success(this.state.index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(this.state.index, err.message));
+       this.props.success(index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(index, err.message));
        }
       
     }
