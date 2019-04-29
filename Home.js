@@ -8,14 +8,16 @@ import {request, del, success, failure} from './Actions';
 const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-01-01?inboundpartialdate=2019-09-01';
 const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
 
-
-
-export default class Home extends React.Component {
+export class Home extends React.Component {
     static navigationOptions = {
       title: 'Skyscanner',
       headerRight: <Button title={'Del'}
       onPress={() => console.log()}/>,
       headerLeft: <Button title={'Get'} onPress={() => Alert.alert("asd")}/>
+    }
+
+    componentDidMount() {
+      this.props = {request, del, success, failure};
     }
 
     onDelPressed(){
@@ -45,12 +47,7 @@ export default class Home extends React.Component {
         case 'first':
           return <View style={{ backgroundColor: '#ff4081', flex: 1 }}>
           <FlatList
-              data={[
-{key: 'James'},
-{key: 'Harry'},
-{key: 'Robert'},
-{key: 'Henry'},
-]} //this.props.data1
+              data={this.props.data1} //this.props.data1
               renderItem={({item}) => <Text style={styles.item}
               onPress={() => this.props.navigation.navigate('Details',
               {key: item.key,})}>{item.key}</Text>}
@@ -59,13 +56,10 @@ export default class Home extends React.Component {
         case 'second':
           return <View style={{ backgroundColor: '#673ab7', flex: 1 }}>
           <FlatList
-            data={[
-              {key: 'James'},
-              {key: 'Harry'},
-              {key: 'Robert'},
-              {key: 'Henry'},
-              ]}
-            renderItem={({item}) => <Text style={{color: 'red'}}>{item.key}</Text>}
+            data={this.props.data2}
+            renderItem={({item}) => <Text style={{color: 'red'}}
+            onPress={() => this.props.success(2, [{key: 'hi'},{key: 'say'}])} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
+            >{item.key}</Text>}
           />
       </View>;
         default:
@@ -104,24 +98,21 @@ const styles = StyleSheet.create({
         },
   });
 /********************************************************************************************/
-  const mapStateToProps = (state) => ({
-    data1: state.data1,
-    data2: state.data2,
-  });
- 
-  const mapDispatchToProps = (dispatch) => ({
-    onReques(id) {
-      dispatch(request(id));
-    },
-    onSucces(id, info) {
-      dispatch(success(id, info));
-    },
-    onFailur(id, err) {
-      dispatch(failure(id, err));
-    },
-    onDelet(id) {
-      dispatch(del(id));
-    }
-  });
- 
-  connect(mapStateToProps, mapDispatchToProps)(Home);
+
+
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  return ({
+  data1: state.data1,
+  data2: state.data2,
+})};
+
+const mapDispatchToProps = dispatch => ({
+  request: (id) => dispatch(request(id)),
+  success: (id,info) => dispatch(success(id,info)),
+  del: (id) => dispatch(del(id)),
+  failure: (id,err) => dispatch(failure(id,err)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
