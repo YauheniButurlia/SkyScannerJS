@@ -43,7 +43,7 @@ export class Home extends React.Component {
       })
     .then((response) => response.json())
     .then((responseJson) => 
-     this.props.success(this.state.index,responseJson.Carriers.map(function(item){return({key: item.Name});}))//{key: item.Name}   this.props.success(this.state.index, 
+     this.props.success(this.state.index,responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
     ).catch((err) => this.props.failure(this.state.index, err.message));
       }
        else {
@@ -56,7 +56,7 @@ export class Home extends React.Component {
         })
       .then((response) => response.json())
       .then((responseJson) => 
-       this.props.success(this.state.index,responseJson.Places.map(function(item){return({key: item.PlaceName});}))//{key: item.Name}   this.props.success(this.state.index, 
+       this.props.success(this.state.index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
       ).catch((err) => this.props.failure(this.state.index, err.message));
        }
       
@@ -82,7 +82,7 @@ export class Home extends React.Component {
                   data={this.props.data1} //this.props.data1
                   renderItem={({item}) => <Text style={styles.item}
                   onPress={() => this.props.navigation.navigate('Details',
-                  {key: item.key,})}>{item.key}</Text>}
+                  {key: item.key, id: item.num})}>{item.key}</Text>}
               /></View>;
         case 'second':
           return <View style={{ backgroundColor: '#673ab7', flex: 1 }}>
@@ -90,7 +90,7 @@ export class Home extends React.Component {
                 data={this.props.data2}
                 renderItem={({item}) => <Text style={styles.item}
                 onPress={() => this.props.navigation.navigate('Details',
-                  {key: item.key,})} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
+                {key: item.key, id: item.num})} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
                 >{item.key}</Text>}
               /></View>;
         default:

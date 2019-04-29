@@ -12,7 +12,7 @@ class Details extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-          <Text>{this.props.navigation.getParam('key')}</Text>
+          <Text>{this.props.navigation.getParam('key')} {this.props.navigation.getParam('id')}</Text>
         </View>
       );
     }
