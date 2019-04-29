@@ -9,29 +9,61 @@ const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sk
 const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
 
 export class Home extends React.Component {
-    static navigationOptions = {
-      title: 'Skyscanner',
-      headerRight: <Button title={'Del'}
-      onPress={() => console.log()}/>,
-      headerLeft: <Button title={'Get'} onPress={() => Alert.alert("asd")}/>
+  
+    static navigationOptions = ({navigation}) => {
+      return {
+        title: 'Skyscanner',
+
+        headerRight: <Button title={'Del'}
+        onPress={navigation.getParam('delete')}/>,//() => console.log(navigation.getParam('index')())
+
+        headerLeft: <Button title={'Get'} 
+        onPress={navigation.getParam('download')}/>
+      }
     }
 
     componentDidMount() {
-      this.props = {request, del, success, failure};
+      this.props.navigation.setParams({ download: this._download, delete: this._delete});
     }
 
-    onDelPressed(){
+    _getIndex = () => {
+      return this.state.index;
+    }
+
+    _download = () => {
+      const index = this.state.index;
+      this.props.request(index);
+      if(index === 0){
+        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-05-01?inboundpartialdate=2019-09-01', {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
+            'X-RapidAPI-Key': 'a45c7b6a8emshf8d62bbc6343fccp1b13dfjsn6bb5515281c4'
+        }
+      })
+    .then((response) => response.json())
+    .then((responseJson) => 
+     this.props.success(this.state.index,responseJson.Carriers.map(function(item){return({key: item.Name});}))//{key: item.Name}   this.props.success(this.state.index, 
+    ).catch((err) => this.props.failure(this.state.index, err.message));
+      }
+       else {
         fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm', {
           method: 'GET',
           headers: {
               'X-RapidAPI-Host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
               'X-RapidAPI-Key': 'a45c7b6a8emshf8d62bbc6343fccp1b13dfjsn6bb5515281c4'
           }
-      })
-    .then((response) => response.json())
-    .then((responseJson) => {
-     console.log(responseJson.map(obj => ({key: obj.PlaceName, ...obj}))); //return responseJson;
-    })
+        })
+      .then((response) => response.json())
+      .then((responseJson) => 
+       this.props.success(this.state.index,responseJson.Places.map(function(item){return({key: item.PlaceName});}))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(this.state.index, err.message));
+       }
+      
+    }
+
+    _delete = () => {
+      this.props.del(this.state.index);
     }
 
     state = {
@@ -46,22 +78,21 @@ export class Home extends React.Component {
         switch (route.key) {
         case 'first':
           return <View style={{ backgroundColor: '#ff4081', flex: 1 }}>
-          <FlatList
-              data={this.props.data1} //this.props.data1
-              renderItem={({item}) => <Text style={styles.item}
-              onPress={() => this.props.navigation.navigate('Details',
-              {key: item.key,})}>{item.key}</Text>}
-          />
-      </View>;
+              <FlatList
+                  data={this.props.data1} //this.props.data1
+                  renderItem={({item}) => <Text style={styles.item}
+                  onPress={() => this.props.navigation.navigate('Details',
+                  {key: item.key,})}>{item.key}</Text>}
+              /></View>;
         case 'second':
           return <View style={{ backgroundColor: '#673ab7', flex: 1 }}>
-          <FlatList
-            data={this.props.data2}
-            renderItem={({item}) => <Text style={{color: 'red'}}
-            onPress={() => this.props.success(2, [{key: 'hi'},{key: 'say'}])} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
-            >{item.key}</Text>}
-          />
-      </View>;
+              <FlatList
+                data={this.props.data2}
+                renderItem={({item}) => <Text style={styles.item}
+                onPress={() => this.props.navigation.navigate('Details',
+                  {key: item.key,})} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
+                >{item.key}</Text>}
+              /></View>;
         default:
           return null;
         }
