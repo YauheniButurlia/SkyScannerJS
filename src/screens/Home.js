@@ -3,7 +3,7 @@ import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
 
-import {request, del, success, failure} from './Actions';
+import {request, del, success, failure} from '../../src/actions/Actions';
 
 const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-05-01?inboundpartialdate=2019-09-01';
 const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
