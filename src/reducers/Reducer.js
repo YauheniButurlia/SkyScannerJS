@@ -14,9 +14,9 @@ export default function reducer(state, action) {
              }
         case REQUEST_SUCCESS: {
                if(action.index === 0) {
-                 return {...state, data1: action.data, loading1: false};
+                 return {...state, data1: action.data, loading1: false, error1: null};
                } else {
-                 return {...state, data2: action.data, loading2: false};
+                 return {...state, data2: action.data, loading2: false, error2: null};
                }
              }
         case DELETE: {

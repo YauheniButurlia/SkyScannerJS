@@ -36,7 +36,7 @@ export class Home extends React.Component {
       const index = this.state.index;
       this.props.request(index);
       if(index === 0){
-        fetch(MAIN_HOST + CARRIERS_REQUEST, {
+        fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
         method: 'GET',
         headers: {
             'X-RapidAPI-Host': MAIN_HOST,
@@ -49,7 +49,7 @@ export class Home extends React.Component {
     ).catch((err) => this.props.failure(0, err.message));
       }
        else {
-        fetch(MAIN_HOST + PLANES_REQUEST, {
+        fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
           method: 'GET',
           headers: {
               'X-RapidAPI-Host': MAIN_HOST,
