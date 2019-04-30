@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 
 import {request, del, success, failure} from '../../src/actions/Actions';
 
+import {API_KEY, MAIN_HOST, CARRIERS_REQUEST, PLANES_REQUEST} from '../../src/constants/Constants'
+/*
 const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-05-01?inboundpartialdate=2019-09-01';
 const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
-
+*/
 export class Home extends React.Component {
   
     static navigationOptions = ({navigation}) => {
@@ -34,11 +36,11 @@ export class Home extends React.Component {
       const index = this.state.index;
       this.props.request(index);
       if(index === 0){
-        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com' + firstRequest, {
+        fetch(MAIN_HOST + CARRIERS_REQUEST, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-            'X-RapidAPI-Key': 'a45c7b6a8emshf8d62bbc6343fccp1b13dfjsn6bb5515281c4'
+            'X-RapidAPI-Host': MAIN_HOST,
+            'X-RapidAPI-Key': API_KEY
         }
       })
     .then((response) => response.json())
@@ -47,11 +49,11 @@ export class Home extends React.Component {
     ).catch((err) => this.props.failure(0, err.message));
       }
        else {
-        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com' + secondRequest, {
+        fetch(MAIN_HOST + PLANES_REQUEST, {
           method: 'GET',
           headers: {
-              'X-RapidAPI-Host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-              'X-RapidAPI-Key': 'a45c7b6a8emshf8d62bbc6343fccp1b13dfjsn6bb5515281c4'
+              'X-RapidAPI-Host': MAIN_HOST,
+              'X-RapidAPI-Key': API_KEY
           }
         })
       .then((response) => response.json())
