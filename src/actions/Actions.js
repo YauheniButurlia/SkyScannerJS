@@ -1,4 +1,4 @@
-import { REQUEST, REQUEST_SUCCESS, REQUEST_FAILURE, DELETE} from './Reducer';
+import { REQUEST, REQUEST_SUCCESS, REQUEST_FAILURE, DELETE} from '../reducers/Reducer';
 
 export const request = (id) => ({
   index: id,
