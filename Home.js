@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import {request, del, success, failure} from './Actions';
 
-const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-01-01?inboundpartialdate=2019-09-01';
+const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-05-01?inboundpartialdate=2019-09-01';
 const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
 
 export class Home extends React.Component {
@@ -34,7 +34,7 @@ export class Home extends React.Component {
       const index = this.state.index;
       this.props.request(index);
       if(index === 0){
-        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-05-01?inboundpartialdate=2019-09-01', {
+        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com' + firstRequest, {
         method: 'GET',
         headers: {
             'X-RapidAPI-Host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
@@ -43,11 +43,11 @@ export class Home extends React.Component {
       })
     .then((response) => response.json())
     .then((responseJson) => 
-     this.props.success(index,responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
-    ).catch((err) => this.props.failure(index, err.message));
+     this.props.success(0,responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
+    ).catch((err) => this.props.failure(0, err.message));
       }
        else {
-        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm', {
+        fetch('https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com' + secondRequest, {
           method: 'GET',
           headers: {
               'X-RapidAPI-Host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
@@ -56,8 +56,8 @@ export class Home extends React.Component {
         })
       .then((response) => response.json())
       .then((responseJson) => 
-       this.props.success(index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(index, err.message));
+       this.props.success(1,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(1, err.message));
        }
       
     }
