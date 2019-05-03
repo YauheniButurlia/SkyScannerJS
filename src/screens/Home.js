@@ -131,7 +131,7 @@ export class Home extends React.Component {
                 {this.props.markers.map(marker => 
                   <Marker
                     coordinate={{latitude: parseFloat(marker.latitude),longitude: parseFloat(marker.longitude)}}
-                    />)}
+                    image={require('../../assets/pin.png')}/>)}
             </MapView>
           </View>//0.0922  0.0421
         default:
