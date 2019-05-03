@@ -23,5 +23,21 @@ export const failure = (id, err) => ({
 });
 
 export const uploadData = (id) => ({
-  
+  index: id,
+  types: [
+    REQUEST,
+    REQUEST_SUCCESS,
+    REQUEST_FAILURE
+    ]
 });
+
+/*
+export const uploadData = (id) => ({
+  index: id,
+  types: [
+    REQUEST,
+    REQUEST_SUCCESS,
+    REQUEST_FAILURE
+    ]
+  });
+  */

@@ -4,9 +4,9 @@ import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE  , Marker, MarkerAnimated} from 'react-native-maps';
 
-import {request, del, success, failure} from '../../src/actions/Actions';
+import {request, del, success, failure, uploadData} from '../../src/actions/Actions';
 
-import {API_KEY, MAIN_HOST, CARRIERS_REQUEST, PLANES_REQUEST} from '../../src/constants/Constants'
+import {API_KEY, MAIN_HOST, CARRIERS_REQUEST, PLANES_REQUEST, GEO_REQUEST} from '../../src/constants/Constants'
 
 //AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
 
@@ -67,21 +67,23 @@ export class Home extends React.Component {
           headers: {
               'X-RapidAPI-Host': MAIN_HOST,
               'X-RapidAPI-Key': API_KEY
-          }
-        })
-      .then((response) => response.json())
-      .then((responseJson) => 
+          }})
+          .then((response) => response.json())
+          .then((responseJson) => 
        this.props.success(index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
       ).catch((err) => this.props.failure(index, err.message));
        } 
        
        else if(index === 2){
-        fetch('https://data.sfgov.org/resource/se33-6ad4.json?$limit=1200')
-      .then((response) => response.json())
-      .then((responseJson) => 
-      this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(index, err.message));
-       }
+         //this.props.uploadData(index);
+        
+          fetch(GEO_REQUEST)
+          .then((response) => response.json())
+          .then((responseJson) => 
+          this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))//{key: item.Name}   this.props.success(this.state.index, 
+          ).catch((err) => this.props.failure(index, err.message));
+       
+      }
       //       this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))
     }
 
@@ -114,7 +116,7 @@ export class Home extends React.Component {
                 data={this.props.data2}
                 renderItem={({item}) => <Text style={styles.item}
                 onPress={() => this.props.navigation.navigate('Details',
-                {key: item.key, id: item.num})} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
+                {key: item.key, id: item.num})}
                 >{item.key}</Text>}
               /></View>;
         case 'third':
@@ -200,6 +202,7 @@ const mapDispatchToProps = dispatch => ({
   success: (id,info) => dispatch(success(id,info)),
   del: (id) => dispatch(del(id)),
   failure: (id,err) => dispatch(failure(id,err)),
+  uploadData: (id) => dispatch(uploadData(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

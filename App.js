@@ -8,6 +8,7 @@ import reducer from './src/reducers/Reducer';
 
 import {apiMiddleware} from './src/services/api';
 
+
 const initialState = { data1: [], data2: [], data3: [], loading1: false,
    loading2: false, loading3: false, error1: null, error2: null, error3: null};
 const store = createStore(reducer, initialState, applyMiddleware(apiMiddleware));
