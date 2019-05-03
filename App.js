@@ -6,8 +6,11 @@ import {Provider} from 'react-redux';
 import AppContainer from './src/containers/AppContainer';
 import reducer from './src/reducers/Reducer';
 
-const initialState = { data1: [], data2: [], loading1: false, loading2: false, error1: null, error2: null };
-const store = createStore(reducer, initialState);
+import {apiMiddleware} from './src/services/api';
+
+const initialState = { data1: [], data2: [], data3: [], loading1: false,
+   loading2: false, loading3: false, error1: null, error2: null, error3: null};
+const store = createStore(reducer, initialState, applyMiddleware(apiMiddleware));
 
 export default class App extends React.Component {
   render() {

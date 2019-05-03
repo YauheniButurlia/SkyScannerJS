@@ -2,14 +2,22 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
+import MapView, { PROVIDER_GOOGLE  , Marker} from 'react-native-maps';
 
 import {request, del, success, failure} from '../../src/actions/Actions';
 
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST, PLANES_REQUEST} from '../../src/constants/Constants'
-/*
-const firstRequest = '/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2019-05-01?inboundpartialdate=2019-09-01';
-const secondRequest = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm';
-*/
+
+//AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
+
+//https://datasf.org/opendata/
+
+//https://data.sfgov.org/resource/se33-6ad4.json?$limit=120   SF API ENDPOINT
+
+//The locations of assets like trash cans, picnic tables, 
+//benches, etc, operated and maintained by Rec and Park.
+
+
 export class Home extends React.Component {
   
     static navigationOptions = ({navigation}) => {
@@ -17,7 +25,7 @@ export class Home extends React.Component {
         title: 'Skyscanner',
 
         headerRight: <Button title={'Del'}
-        onPress={navigation.getParam('delete')}/>,//() => console.log(navigation.getParam('index')())
+        onPress={navigation.getParam('delete')}/>,
 
         headerLeft: <Button title={'Get'} 
         onPress={navigation.getParam('download')}/>
@@ -45,8 +53,8 @@ export class Home extends React.Component {
       })
     .then((response) => response.json())
     .then((responseJson) => 
-     this.props.success(0,responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
-    ).catch((err) => this.props.failure(0, err.message));
+     this.props.success(index, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
+    ).catch((err) => this.props.failure(index, err.message));
       }
        else {
         fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
@@ -58,8 +66,8 @@ export class Home extends React.Component {
         })
       .then((response) => response.json())
       .then((responseJson) => 
-       this.props.success(1,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(1, err.message));
+       this.props.success(index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(index, err.message));
        }
       
     }
@@ -73,6 +81,7 @@ export class Home extends React.Component {
         routes: [
           { key: 'first', title: 'Carriers' },
           { key: 'second', title: 'Places' },
+          { key: 'third', title: 'GeoPoints'}
         ],
       };
 
@@ -95,10 +104,38 @@ export class Home extends React.Component {
                 {key: item.key, id: item.num})} //this.props.onSuccess(2, [{key: 'hi'},{key: 'say'}])
                 >{item.key}</Text>}
               /></View>;
+        case 'third':
+          return <View style={{flex: 1}}>
+            <MapView
+              provider={PROVIDER_GOOGLE}
+              style={styles.map}
+              initialRegion={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            >
+            <Marker coordinate={{latitude: 37.771229329999997,longitude: -122.49910441}}/>
+
+            </MapView>
+          </View>//0.0922  0.0421
         default:
           return null;
         }
       };
+
+      /*
+      <Marker coordinate={marker.latlng}/>
+
+
+      {this.state.markers.map(marker => (
+              <Marker
+                coordinate={marker.latlng}
+                title={marker.title}
+                description={marker.description}/>
+              ))}
+      */
    
     render() {
         return (
@@ -107,6 +144,7 @@ export class Home extends React.Component {
                 renderScene={this._renderScene}
                 onIndexChange={index => this.setState({ index })}
                 initialLayout={{ width: Dimensions.get('window').width }}
+                //onSwipeEnd={}
              />
         );
     }
@@ -128,6 +166,9 @@ const styles = StyleSheet.create({
             fontSize: 18,
             height: 44,
             borderWidth: 2
+        },
+        map: {
+          ...StyleSheet.absoluteFillObject,
         },
   });
 /********************************************************************************************/

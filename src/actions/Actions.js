@@ -21,3 +21,7 @@ export const failure = (id, err) => ({
   index: id,
   error: err,
 });
+
+export const uploadData = (id) => ({
+  
+});
