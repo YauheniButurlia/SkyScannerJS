@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
-import MapView, { PROVIDER_GOOGLE  , Marker} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE  , Marker, MarkerAnimated} from 'react-native-maps';
 
 import {request, del, success, failure} from '../../src/actions/Actions';
 
@@ -43,6 +43,9 @@ export class Home extends React.Component {
     _download = () => {
       const index = this.state.index;
       this.props.request(index);
+
+
+
       if(index === 0){
         fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
         method: 'GET',
@@ -56,7 +59,9 @@ export class Home extends React.Component {
      this.props.success(index, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
     ).catch((err) => this.props.failure(index, err.message));
       }
-       else {
+
+
+       else if(index === 1){
         fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
           method: 'GET',
           headers: {
@@ -68,8 +73,16 @@ export class Home extends React.Component {
       .then((responseJson) => 
        this.props.success(index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
       ).catch((err) => this.props.failure(index, err.message));
+       } 
+       
+       else if(index === 2){
+        fetch('https://data.sfgov.org/resource/se33-6ad4.json?$limit=1200')
+      .then((response) => response.json())
+      .then((responseJson) => 
+      this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(index, err.message));
        }
-      
+      //       this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))
     }
 
     _delete = () => {
@@ -114,10 +127,11 @@ export class Home extends React.Component {
                 longitude: -122.4324,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-              }}
-            >
-            <Marker coordinate={{latitude: 37.771229329999997,longitude: -122.49910441}}/>
-
+              }}>
+                {this.props.markers.map(marker => 
+                  <Marker
+                    coordinate={{latitude: parseFloat(marker.latitude),longitude: parseFloat(marker.longitude)}}
+                    />)}
             </MapView>
           </View>//0.0922  0.0421
         default:
@@ -126,9 +140,7 @@ export class Home extends React.Component {
       };
 
       /*
-      <Marker coordinate={marker.latlng}/>
-
-
+      <Marker coordinate={{latitude: 37.771229329999997,longitude: -122.49910441}}/>
       {this.state.markers.map(marker => (
               <Marker
                 coordinate={marker.latlng}
@@ -180,6 +192,7 @@ const mapStateToProps = (state) => {
   return ({
   data1: state.data1,
   data2: state.data2,
+  markers: state.data3,
 })};
 
 const mapDispatchToProps = dispatch => ({
