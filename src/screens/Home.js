@@ -80,7 +80,7 @@ export class Home extends React.Component {
           fetch(GEO_REQUEST)
           .then((response) => response.json())
           .then((responseJson) => 
-          this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))//{key: item.Name}   this.props.success(this.state.index, 
+          this.props.success(index, responseJson.map(item => ({latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
           ).catch((err) => this.props.failure(index, err.message));
        
       }
@@ -132,10 +132,10 @@ export class Home extends React.Component {
               }}>
                 {this.props.markers.map(marker => 
                   <Marker
-                    coordinate={{latitude: parseFloat(marker.latitude),longitude: parseFloat(marker.longitude)}}
+                    coordinate={marker}
                     image={require('../../assets/pin.png')}/>)}
             </MapView>
-          </View>//0.0922  0.0421
+          </View>//0.0922  0.0421  {latitude: marker.latitude,longitude: marker.longitude}
         default:
           return null;
         }
