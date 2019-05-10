@@ -31,6 +31,7 @@ const initialRegion = {
   longitudeDelta: 0.0421,
 };
 const amountOfMarkers = 10;
+let loadedAmount = 0;
 let offset = 0;
 
 export class Home extends React.Component {
@@ -51,10 +52,6 @@ export class Home extends React.Component {
 
     componentDidMount() {
       this.props.navigation.setParams({ download: this._download, delete: this._delete});
-    }
-
-    _getIndex = () => {
-      return this.state.index;
     }
 
     _download = () => {
@@ -106,28 +103,40 @@ export class Home extends React.Component {
           offset = offset + amountOfMarkers;
           fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
           .then((response) => response.json())
-          .then((responseJson) => 
-          this.props.success(GEO_TAB_INDEX, responseJson.map(item => ({key: item.objectid, title: item.map_label, desc: item.tma_asset_name, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
+          .then((responseJson) => {
+            this.props.success(GEO_TAB_INDEX, 
+            responseJson.map(item => (
+                {
+                  key: item.objectid,
+                  title: item.map_label,
+                  desc: item.tma_asset_name,
+                  latitude: parseFloat(item.latitude),
+                  longitude: parseFloat(item.longitude)
+                }
+            )));
+            loadedAmount = loadedAmount + amountOfMarkers;
+          }
           ).catch((err) => this.props.failure(GEO_TAB_INDEX, err.message));
     }
 
     _delete = () => {
       offset = 0;
+      loadedAmount = 0;
       this.props.del(this.state.index);
     }
 
     state = {
         index: 0,
         routes: [
-          { key: 'first', title: 'Carriers' },
-          { key: 'second', title: 'Places' },
-          { key: 'third', title: 'GeoPoints'}
+          { key: CARRIERS_TAB_INDEX, title: 'Carriers' },
+          { key: PLANES_TAB_INDEX, title: 'Places' },
+          { key: GEO_TAB_INDEX, title: 'GeoPoints'}
         ],
       };
 
       _renderScene = ({ route }) => {
         switch (route.key) {
-        case 'first':
+        case CARRIERS_TAB_INDEX:
           return <View style={{ backgroundColor: '#ff4081', flex: 1 }}>
               <FlatList
                   data={this.props.data1} //this.props.data1
@@ -135,7 +144,7 @@ export class Home extends React.Component {
                   onPress={() => this.props.navigation.navigate('Details',
                   {key: item.key, id: item.num})}>{item.key}</Text>}
               /></View>;
-        case 'second':
+        case PLANES_TAB_INDEX:
           return <View style={{ backgroundColor: '#673ab7', flex: 1 }}>
               <FlatList
                 data={this.props.data2}
@@ -144,35 +153,26 @@ export class Home extends React.Component {
                 {key: item.key, id: item.num})}
                 >{item.key}</Text>}
               /></View>;
-        case 'third':
+        case GEO_TAB_INDEX:
           return <View style={{flex: 1}}>
             <MapView
               cacheEnabled={true}
               style={styles.map}
               initialRegion={initialRegion}>
                 {this.props.markers.map(marker => 
-                <Marker
-                    title={marker.title}
-                    description={marker.desc}
-                    key={marker.key}
-                    coordinate={marker}
-                    icon={icon}/>)}
+                  <Marker
+                      title={marker.title}
+                      description={marker.desc}
+                      key={marker.key}
+                      coordinate={marker}
+                      icon={icon}/>)}
             </MapView>
-          </View>//0.0922  0.0421  {latitude: marker.latitude,longitude: marker.longitude}
+          </View>
         default:
           return null;
         }
       };
 
-      /*
-      <Marker coordinate={{latitude: 37.771229329999997,longitude: -122.49910441}}/>
-      {this.state.markers.map(marker => (
-              <Marker
-                coordinate={marker.latlng}
-                title={marker.title}
-                description={marker.description}/>
-              ))}
-      */
    
     render() {
         return (
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  //console.log(state);
   return ({
   data1: state.data1,
   data2: state.data2,
