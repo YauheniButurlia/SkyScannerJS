@@ -60,45 +60,55 @@ export class Home extends React.Component {
     _download = () => {
       const index = this.state.index;
       this.props.request(index);
+      switch(index) {
+        case CARRIERS_TAB_INDEX:
+          this._fetchCarriers();
+          break;
+        case PLANES_TAB_INDEX:
+          this._fetchPlanes();
+          break;
+        case GEO_TAB_INDEX:
+          this._fetchMarkers();
+          break;
+        default:
+          break;
+      }
+    }
 
-
-
-      if(index === CARRIERS_TAB_INDEX){
-        fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
+    _fetchCarriers = () => {
+      fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
         method: 'GET',
         headers: {
             'X-RapidAPI-Host': MAIN_HOST,
             'X-RapidAPI-Key': API_KEY
         }
       })
-    .then((response) => response.json())
-    .then((responseJson) => 
-     this.props.success(CARRIERS_TAB_INDEX, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
-    ).catch((err) => this.props.failure(CARRIERS_TAB_INDEX, err.message));
-      }
+      .then((response) => response.json())
+      .then((responseJson) => 
+      this.props.success(CARRIERS_TAB_INDEX, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(CARRIERS_TAB_INDEX, err.message));
+    }
 
-
-       else if(index === PLANES_TAB_INDEX){
-        fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
-          method: 'GET',
-          headers: {
-              'X-RapidAPI-Host': MAIN_HOST,
-              'X-RapidAPI-Key': API_KEY
-          }})
-          .then((response) => response.json())
-          .then((responseJson) => 
-       this.props.success(PLANES_TAB_INDEX,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
+    _fetchPlanes = () => {
+      fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Host': MAIN_HOST,
+            'X-RapidAPI-Key': API_KEY
+        }})
+        .then((response) => response.json())
+        .then((responseJson) => 
+        this.props.success(PLANES_TAB_INDEX,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
       ).catch((err) => this.props.failure(PLANES_TAB_INDEX, err.message));
-       } 
-       
-       else if(index === GEO_TAB_INDEX){
+    }
+
+    _fetchMarkers = () => {
           offset = offset + amountOfMarkers;
           fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
           .then((response) => response.json())
           .then((responseJson) => 
           this.props.success(GEO_TAB_INDEX, responseJson.map(item => ({key: item.objectid, title: item.map_label, desc: item.tma_asset_name, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
           ).catch((err) => this.props.failure(GEO_TAB_INDEX, err.message));
-      }
     }
 
     _delete = () => {
