@@ -6,6 +6,7 @@ import MapView, { PROVIDER_GOOGLE  , Marker, Callout, MarkerAnimated} from 'reac
 import {CustomMarker} from '../../src/components/CustomMarker';
 
 import {request, del, success, failure, uploadData} from '../../src/actions/Actions';
+import {callFetch} from '../../src/services/api';
 
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
    PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM,
@@ -29,6 +30,10 @@ const initialRegion = {
   longitude: -122.4324,
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
+};
+const headers = {
+  'X-RapidAPI-Host': MAIN_HOST,
+  'X-RapidAPI-Key': API_KEY
 };
 const amountOfMarkers = 10;
 let loadedAmount = 0;
@@ -64,55 +69,63 @@ export class Home extends React.Component {
           this._fetchPlanes();
           break;
         case GEO_TAB_INDEX:
-          //this._fetchMarkers();
-          this._fetchGeo()
-          .then(() => {
-            this._fetchMarkers();
-            if(loadedAmount < neededAmount) {
-              this._download(GEO_TAB_INDEX);
-            }
-          });
+          this._repeatedCall();
           break;
         default:
           break;
       }
     }
 
-    _fetchCarriers = () => {
-      fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Host': MAIN_HOST,
-            'X-RapidAPI-Key': API_KEY
+    _repeatedCall = () => {
+      this._fetchGeo()
+      .then(() => {
+        this._fetchMarkers();
+        if(loadedAmount < neededAmount) {
+          this._repeatedCall();
         }
-      })
-      .then((response) => response.json())
-      .then((responseJson) => 
-      this.props.success(CARRIERS_TAB_INDEX, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(CARRIERS_TAB_INDEX, err.message));
+      });
+    }
+
+    _fetchCarriers = () => {
+      callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, headers, 
+      CARRIERS_TAB_INDEX, 
+      'Carriers', 
+      (item) => ({key: item.Name, num: item.CarrierId}), 
+      this);
     }
 
     _fetchPlanes = () => {
-      fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Host': MAIN_HOST,
-            'X-RapidAPI-Key': API_KEY
-        }})
-        .then((response) => response.json())
-        .then((responseJson) => 
-        this.props.success(PLANES_TAB_INDEX,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(PLANES_TAB_INDEX, err.message));
+      callFetch('https://' + MAIN_HOST + PLANES_REQUEST,
+      headers, PLANES_TAB_INDEX,
+      'Places',
+      (item) => ({key: item.PlaceName, num: item.PlaceId}),
+      this);
     }
 
     _fetchGeo(){
       return new Promise(resolve => {
-        setTimeout(() => resolve('resolved'),200);
+        setTimeout(() => resolve('resolved'), 200);
       })
     }
 
     _fetchMarkers = () => {
           offset = offset + amountOfMarkers;
+/*
+          callFetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset,
+          undefined,
+          GEO_TAB_INDEX, 
+          undefined,
+          (item) => (
+            {
+              key: item.objectid,
+              title: item.map_label,
+              desc: item.tma_asset_name,
+              latitude: parseFloat(item.latitude),
+              longitude: parseFloat(item.longitude)
+            }),
+          this);
+*/
+          
           fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
           .then((response) => response.json())
           .then((responseJson) => {
@@ -129,11 +142,14 @@ export class Home extends React.Component {
             loadedAmount = loadedAmount + amountOfMarkers;
           }
           ).catch((err) => this.props.failure(GEO_TAB_INDEX, err.message));
+          
     }
 
     _delete = () => {
-      offset = 0;
-      loadedAmount = 0;
+      if(this.state.index === GEO_TAB_INDEX) {
+        offset = 0;
+        loadedAmount = 0;
+      }
       this.props.del(this.state.index);
     }
 

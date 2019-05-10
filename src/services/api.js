@@ -1,6 +1,24 @@
-function getFetchAction(){
+export function callFetch(request, headers, tab_index, JSONfield, map_function, comp){
+    let requestOptions = {
+        method: 'GET',
+        headers: headers
+    };
 
+    if(headers === undefined){
+         fetch(request)
+            .then((response) => response.json())
+            .then((responseJson) => 
+                comp.props.success(tab_index, responseJson.map(map_function))
+            ).catch((err) => comp.props.failure(tab_index, err.message)); 
+    } else {
+        fetch(request, requestOptions)
+            .then((response) => response.json())
+            .then((responseJson) => 
+                comp.props.success(tab_index, responseJson[JSONfield].map(map_function))
+            ).catch((err) => comp.props.failure(tab_index, err.message));
+    }
 }
+
 export function callAPI(){
 
 }
