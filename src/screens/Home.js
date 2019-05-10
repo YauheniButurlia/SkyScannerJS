@@ -11,7 +11,8 @@ import {callFetch} from '../../src/services/api';
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
    PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM,
    OFFSET_PARAM, GEO_TAB_INDEX,
-   PLANES_TAB_INDEX, CARRIERS_TAB_INDEX} from '../../src/constants/Constants'
+   PLANES_TAB_INDEX, CARRIERS_TAB_INDEX,
+  INITIAL_REGION, HEADERS} from '../../src/constants/Constants'
 
 //AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
 
@@ -25,16 +26,7 @@ import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
 
 
 const icon = require('../../assets/pin.png');
-const initialRegion = {
-  latitude: 37.78825,
-  longitude: -122.4324,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-};
-const headers = {
-  'X-RapidAPI-Host': MAIN_HOST,
-  'X-RapidAPI-Key': API_KEY
-};
+
 const amountOfMarkers = 10;
 let loadedAmount = 0;
 const neededAmount = 80;
@@ -87,7 +79,8 @@ export class Home extends React.Component {
     }
 
     _fetchCarriers = () => {
-      callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, headers, 
+      callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, 
+      HEADERS, 
       CARRIERS_TAB_INDEX, 
       'Carriers', 
       (item) => ({key: item.Name, num: item.CarrierId}), 
@@ -95,8 +88,9 @@ export class Home extends React.Component {
     }
 
     _fetchPlanes = () => {
-      callFetch('https://' + MAIN_HOST + PLANES_REQUEST,
-      headers, PLANES_TAB_INDEX,
+      callFetch('https://' + MAIN_HOST + PLANES_REQUEST, 
+      HEADERS, 
+      PLANES_TAB_INDEX,
       'Places',
       (item) => ({key: item.PlaceName, num: item.PlaceId}),
       this);
@@ -109,7 +103,7 @@ export class Home extends React.Component {
     }
 
     _fetchMarkers = () => {
-          offset = offset + amountOfMarkers;
+          offset = offset + amountOfMarkers + 1;
 
           callFetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset,
           undefined,
@@ -168,7 +162,7 @@ export class Home extends React.Component {
             <MapView
               cacheEnabled={true}
               style={styles.map}
-              initialRegion={initialRegion}>
+              initialRegion={INITIAL_REGION}>
                 {this.props.markers.map(marker => 
                   <Marker
                       title={marker.title}
