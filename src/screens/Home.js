@@ -3,10 +3,12 @@ import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE  , Marker, MarkerAnimated} from 'react-native-maps';
+import {CustomMarker} from '../../src/components/CustomMarker';
 
 import {request, del, success, failure, uploadData} from '../../src/actions/Actions';
 
-import {API_KEY, MAIN_HOST, CARRIERS_REQUEST, PLANES_REQUEST, GEO_REQUEST} from '../../src/constants/Constants'
+import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
+   PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../../src/constants/Constants'
 
 //AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
 
@@ -18,7 +20,20 @@ import {API_KEY, MAIN_HOST, CARRIERS_REQUEST, PLANES_REQUEST, GEO_REQUEST} from 
 //benches, etc, operated and maintained by Rec and Park.
 
 
+
+const icon = require('../../assets/pin.png');
+const initialRegion = {
+  latitude: 37.78825,
+  longitude: -122.4324,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+};
+const amountOfMarkers = 30;
+let offset = 0;
+
 export class Home extends React.Component {
+
+    
   
     static navigationOptions = ({navigation}) => {
       return {
@@ -75,12 +90,11 @@ export class Home extends React.Component {
        } 
        
        else if(index === 2){
-         //this.props.uploadData(index);
-        
-          fetch(GEO_REQUEST)
+          offset = offset + amountOfMarkers;
+          fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
           .then((response) => response.json())
           .then((responseJson) => 
-          this.props.success(index, responseJson.map(item => ({latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
+          this.props.success(index, responseJson.map(item => ({key: item.objectid, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
           ).catch((err) => this.props.failure(index, err.message));
        
       }
@@ -88,6 +102,7 @@ export class Home extends React.Component {
     }
 
     _delete = () => {
+      offset = 0;
       this.props.del(this.state.index);
     }
 
@@ -122,18 +137,14 @@ export class Home extends React.Component {
         case 'third':
           return <View style={{flex: 1}}>
             <MapView
-              provider={PROVIDER_GOOGLE}
+              cacheEnabled={true}
               style={styles.map}
-              initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}>
+              initialRegion={initialRegion}>
                 {this.props.markers.map(marker => 
-                  <Marker
+                <Marker
+                    key={marker.key}
                     coordinate={marker}
-                    image={require('../../assets/pin.png')}/>)}
+                    icon={icon}/>)}
             </MapView>
           </View>//0.0922  0.0421  {latitude: marker.latitude,longitude: marker.longitude}
         default:
@@ -158,7 +169,6 @@ export class Home extends React.Component {
                 renderScene={this._renderScene}
                 onIndexChange={index => this.setState({ index })}
                 initialLayout={{ width: Dimensions.get('window').width }}
-                //onSwipeEnd={}
              />
         );
     }

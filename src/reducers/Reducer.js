@@ -20,7 +20,7 @@ export default function reducer(state, action) {
                } else if(action.index === 1) {
                  return {...state, data2: action.data, loading2: false, error2: null};
                } else if(action.index === 2) {
-                 return {...state, data3: action.data, loading3: false, error3: null};
+                 return {...state, data3: [...state.data3,...action.data], loading3: false, error3: null};
                }
              }
         case DELETE: {
