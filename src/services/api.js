@@ -5,7 +5,7 @@ export function callFetch(request, headers, tab_index, JSONfield, map_function, 
     };
 
     if(headers === undefined){
-         fetch(request)
+         return fetch(request)
             .then((response) => response.json())
             .then((responseJson) => 
                 comp.props.success(tab_index, responseJson.map(map_function))

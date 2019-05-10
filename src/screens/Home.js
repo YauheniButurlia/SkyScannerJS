@@ -37,7 +37,7 @@ const headers = {
 };
 const amountOfMarkers = 10;
 let loadedAmount = 0;
-const neededAmount = 500;
+const neededAmount = 80;
 let offset = 0;
 
 export class Home extends React.Component {
@@ -110,39 +110,21 @@ export class Home extends React.Component {
 
     _fetchMarkers = () => {
           offset = offset + amountOfMarkers;
-/*
+
           callFetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset,
           undefined,
           GEO_TAB_INDEX, 
           undefined,
           (item) => (
             {
-              key: item.objectid,
+              key: item.asset_id,
               title: item.map_label,
               desc: item.tma_asset_name,
               latitude: parseFloat(item.latitude),
               longitude: parseFloat(item.longitude)
             }),
-          this);
-*/
-          
-          fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
-          .then((response) => response.json())
-          .then((responseJson) => {
-            this.props.success(GEO_TAB_INDEX, 
-            responseJson.map(item => (
-                {
-                  key: item.objectid,
-                  title: item.map_label,
-                  desc: item.tma_asset_name,
-                  latitude: parseFloat(item.latitude),
-                  longitude: parseFloat(item.longitude)
-                }
-            )));
-            loadedAmount = loadedAmount + amountOfMarkers;
-          }
-          ).catch((err) => this.props.failure(GEO_TAB_INDEX, err.message));
-          
+          this)
+          .then(loadedAmount = loadedAmount + amountOfMarkers);     
     }
 
     _delete = () => {
