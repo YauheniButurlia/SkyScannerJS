@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
-import MapView, { PROVIDER_GOOGLE  , Marker, MarkerAnimated} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE  , Marker, Callout, MarkerAnimated} from 'react-native-maps';
 import {CustomMarker} from '../../src/components/CustomMarker';
 
 import {request, del, success, failure, uploadData} from '../../src/actions/Actions';
@@ -94,7 +94,7 @@ export class Home extends React.Component {
           fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
           .then((response) => response.json())
           .then((responseJson) => 
-          this.props.success(index, responseJson.map(item => ({key: item.objectid, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
+          this.props.success(index, responseJson.map(item => ({key: item.objectid, title: item.map_label, desc: item.tma_asset_name, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
           ).catch((err) => this.props.failure(index, err.message));
        
       }
@@ -142,6 +142,8 @@ export class Home extends React.Component {
               initialRegion={initialRegion}>
                 {this.props.markers.map(marker => 
                 <Marker
+                    title={marker.title}
+                    description={marker.desc}
                     key={marker.key}
                     coordinate={marker}
                     icon={icon}/>)}
