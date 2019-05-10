@@ -32,7 +32,7 @@ const initialRegion = {
 };
 const amountOfMarkers = 10;
 let loadedAmount = 0;
-const neededAmount = 200;
+const neededAmount = 500;
 let offset = 0;
 
 export class Home extends React.Component {
