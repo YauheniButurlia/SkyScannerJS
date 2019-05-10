@@ -32,12 +32,11 @@ const initialRegion = {
 };
 const amountOfMarkers = 10;
 let loadedAmount = 0;
+const neededAmount = 200;
 let offset = 0;
 
 export class Home extends React.Component {
 
-    
-  
     static navigationOptions = ({navigation}) => {
       return {
         title: 'Skyscanner',
@@ -54,7 +53,7 @@ export class Home extends React.Component {
       this.props.navigation.setParams({ download: this._download, delete: this._delete});
     }
 
-    _download = () => {
+    _download = (id) => {
       const index = this.state.index;
       this.props.request(index);
       switch(index) {
@@ -65,7 +64,14 @@ export class Home extends React.Component {
           this._fetchPlanes();
           break;
         case GEO_TAB_INDEX:
-          this._fetchMarkers();
+          //this._fetchMarkers();
+          this._fetchGeo()
+          .then(() => {
+            this._fetchMarkers();
+            if(loadedAmount < neededAmount) {
+              this._download(GEO_TAB_INDEX);
+            }
+          });
           break;
         default:
           break;
@@ -97,6 +103,12 @@ export class Home extends React.Component {
         .then((responseJson) => 
         this.props.success(PLANES_TAB_INDEX,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
       ).catch((err) => this.props.failure(PLANES_TAB_INDEX, err.message));
+    }
+
+    _fetchGeo(){
+      return new Promise(resolve => {
+        setTimeout(() => resolve('resolved'),200);
+      })
     }
 
     _fetchMarkers = () => {
