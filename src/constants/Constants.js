@@ -5,3 +5,7 @@ export const PLANES_REQUEST = '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query
 export const GEO_REQUEST = 'https://data.sfgov.org/resource/se33-6ad4.json';
 export const LIMIT_PARAM = '$limit=';
 export const OFFSET_PARAM = '$offset=';
+
+export const CARRIERS_TAB_INDEX = 0;
+export const PLANES_TAB_INDEX = 1;
+export const GEO_TAB_INDEX = 2;

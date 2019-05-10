@@ -8,7 +8,9 @@ import {CustomMarker} from '../../src/components/CustomMarker';
 import {request, del, success, failure, uploadData} from '../../src/actions/Actions';
 
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
-   PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../../src/constants/Constants'
+   PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM,
+   OFFSET_PARAM, GEO_TAB_INDEX,
+   PLANES_TAB_INDEX, CARRIERS_TAB_INDEX} from '../../src/constants/Constants'
 
 //AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
 
@@ -28,7 +30,7 @@ const initialRegion = {
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
 };
-const amountOfMarkers = 30;
+const amountOfMarkers = 10;
 let offset = 0;
 
 export class Home extends React.Component {
@@ -61,7 +63,7 @@ export class Home extends React.Component {
 
 
 
-      if(index === 0){
+      if(index === CARRIERS_TAB_INDEX){
         fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
         method: 'GET',
         headers: {
@@ -71,12 +73,12 @@ export class Home extends React.Component {
       })
     .then((response) => response.json())
     .then((responseJson) => 
-     this.props.success(index, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
-    ).catch((err) => this.props.failure(index, err.message));
+     this.props.success(CARRIERS_TAB_INDEX, responseJson.Carriers.map(function(item){return({key: item.Name, num: item.CarrierId});}))//{key: item.Name}   this.props.success(this.state.index, 
+    ).catch((err) => this.props.failure(CARRIERS_TAB_INDEX, err.message));
       }
 
 
-       else if(index === 1){
+       else if(index === PLANES_TAB_INDEX){
         fetch('https://' + MAIN_HOST + PLANES_REQUEST, {
           method: 'GET',
           headers: {
@@ -85,20 +87,18 @@ export class Home extends React.Component {
           }})
           .then((response) => response.json())
           .then((responseJson) => 
-       this.props.success(index,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
-      ).catch((err) => this.props.failure(index, err.message));
+       this.props.success(PLANES_TAB_INDEX,responseJson.Places.map(function(item){return({key: item.PlaceName, num: item.PlaceId});}))//{key: item.Name}   this.props.success(this.state.index, 
+      ).catch((err) => this.props.failure(PLANES_TAB_INDEX, err.message));
        } 
        
-       else if(index === 2){
+       else if(index === GEO_TAB_INDEX){
           offset = offset + amountOfMarkers;
           fetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset)
           .then((response) => response.json())
           .then((responseJson) => 
-          this.props.success(index, responseJson.map(item => ({key: item.objectid, title: item.map_label, desc: item.tma_asset_name, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
-          ).catch((err) => this.props.failure(index, err.message));
-       
+          this.props.success(GEO_TAB_INDEX, responseJson.map(item => ({key: item.objectid, title: item.map_label, desc: item.tma_asset_name, latitude: parseFloat(item.latitude), longitude: parseFloat(item.longitude)})))//{key: item.Name}   this.props.success(this.state.index, 
+          ).catch((err) => this.props.failure(GEO_TAB_INDEX, err.message));
       }
-      //       this.props.success(index, responseJson.map(item => ({latitude: item.latitude, longitude: item.longitude})))
     }
 
     _delete = () => {
