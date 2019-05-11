@@ -3,7 +3,8 @@
 import {REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS,
   REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES,
   REQUEST_MARKERS, SUCCESS_MARKERS, FAILURE_MARKERS,
-  DELETE_CARRIERS, DELETE_PLACES, DELETE_MARKERS} from '../../src/constants/actionTypes';
+  DELETE_CARRIERS, DELETE_PLACES, DELETE_MARKERS, 
+  CHANGE_TAB} from '../../src/constants/actionTypes';
 
 /*
 export const request = (id) => ({
@@ -75,4 +76,9 @@ export const delete_places = () => ({
 });
 export const delete_markers = () => ({
   type: DELETE_MARKERS,
+});
+
+export const change_tab = (index) => ({
+  type: CHANGE_TAB,
+  index: index
 });

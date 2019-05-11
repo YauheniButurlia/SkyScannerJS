@@ -12,7 +12,8 @@ import places from './places';
 export default combineReducers({
   carriers,
   places,
-  markers
+  markers,
+  nav
 });
 
 /*
