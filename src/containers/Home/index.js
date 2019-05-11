@@ -3,16 +3,16 @@ import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE  , Marker, Callout, MarkerAnimated} from 'react-native-maps';
-import {CustomMarker} from '../../src/components/CustomMarker';
+import {CustomMarker} from '../../components/CustomMarker';
 
-import {request, del, success, failure, uploadData} from '../../src/actions/Actions';
-import {callFetch} from '../../src/services/api';
-
+import {request, del, success, failure, uploadData} from '../../actions/Actions';
+import {callFetch} from '../../services/api';
+import {styles} from './styles'
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
    PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM,
    OFFSET_PARAM, GEO_TAB_INDEX,
    PLANES_TAB_INDEX, CARRIERS_TAB_INDEX,
-  INITIAL_REGION, HEADERS} from '../../src/constants/Constants'
+  INITIAL_REGION, HEADERS} from '../../constants/constants'
 
 //AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
 
@@ -189,31 +189,7 @@ export class Home extends React.Component {
         );
     }
   }
-
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    scene: {
-        flex: 1,
-      },
-        item: {
-            padding: 10,
-            fontSize: 18,
-            height: 44,
-            borderWidth: 2
-        },
-        map: {
-          ...StyleSheet.absoluteFillObject,
-        },
-  });
 /********************************************************************************************/
-
-
 
 const mapStateToProps = (state) => {
   //console.log(state);

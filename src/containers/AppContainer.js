@@ -1,6 +1,6 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Home from '../screens/Home';
-import Details from '../screens/Details';
+import Home from './Home';
+import Details from './Details';
 
 const AppNavigator = createStackNavigator({
   Home: {screen: Home},

@@ -1,8 +1,21 @@
+/*
 export const REQUEST = 'try_download';
 export const REQUEST_SUCCESS = 'downloaded';
 export const REQUEST_FAILURE = 'failed to download';
 export const DELETE = 'delete from store';
+*/
+import {combineReducers} from 'redux';
+import carriers from './carriers';
+import markers from './markers';
+import places from './places';
 
+export default combineReducers({
+  carriers,
+  places,
+  markers
+});
+
+/*
 export default function reducer(state, action) {
     switch (action.type) {
         case REQUEST: {
@@ -48,3 +61,4 @@ export default function reducer(state, action) {
             return state;
     }
 }
+*/

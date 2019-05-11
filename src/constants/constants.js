@@ -23,4 +23,4 @@ export const INITIAL_REGION = {
     longitudeDelta: 0.0421,
   };
 export const NEEDED_AMOUNT_OF_MARKERS = 200;
-export const AMOUNT_OF_MARKERS_DOWNLOADING_AT_ONCE = 10;
+export const AMOUNT_OF_MARKERS_DOWNLOADED_AT_ONCE = 10;
