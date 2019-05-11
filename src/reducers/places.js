@@ -7,7 +7,7 @@ export default function places(state, action) {
         case SUCCESS_PLACES:
             return {...state, places: {data: action.data, error: '', loading: false}};
         case FAILURE_PLACES:
-            return {...state, places: {data: [], error: action.err, loading: false}};
+            return {...state, places: {data: [], error: action.error, loading: false}};
         case DELETE_PLACES:
             return {...state, places: {data: [], error: '', loading: false}};
         default:
