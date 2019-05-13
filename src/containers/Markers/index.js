@@ -9,20 +9,37 @@ import {request_markers, success_markers} from '../../actions/markers';
 import {styles} from './styles';
 
 import {INITIAL_REGION} from '../../constants/constants';
+import {GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../../config';
 
 const ICON_IMAGE = require('../../../assets/pin.png');
 
 class Markers extends React.Component {
+
     componentDidMount(){
         
     }
+
     componentDidUpdate(){
       if(this.props.loading === true){
-        this.props.success_markers([{key: 345, title: '12313', desc: 'ihfashfipsuhfiuas',
-    latitude: 37.782846, longitude: -122.470037},{key: 12, title: '1233553', desc: 'ih253423424suhfiuas',
-    latitude: 37.783046, longitude: -122.460137}]);
+        this._loadData();
       }
     }
+
+    _loadData(){
+      fetch(GEO_REQUEST + '?' + LIMIT_PARAM + 50 + '&' + OFFSET_PARAM + 0)
+        .then(responce => responce.json())
+        .then(responceJson => this.props.success_markers(responceJson.map(
+          (item) => (
+          {
+            key: item.asset_id,
+            title: item.map_label,
+            desc: item.tma_asset_name,
+            latitude: parseFloat(item.latitude),
+            longitude: parseFloat(item.longitude)
+          })))
+        )
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -48,9 +65,9 @@ const mapStateToProps = (state) => ({
     loading: state.markers.loading
 });
   
-  const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     request_markers: () => dispatch(request_markers()),
     success_markers: (data) => dispatch(success_markers(data))
-  });
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Markers));

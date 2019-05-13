@@ -5,6 +5,9 @@ import {withNavigation} from 'react-navigation';
 
 import {request_places, success_places} from '../../actions/places';
 
+import {HEADERS, MAIN_HOST, PLACES_REQUEST} from '../../config';
+import {} from '../../constants/constants';
+
 import {styles} from './styles';
 
 class Places extends React.Component {
@@ -14,8 +17,18 @@ class Places extends React.Component {
 
     componentDidUpdate(){
         if(this.props.loading === true){
-            this.props.success_places([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+            this._loadData();
         }
+    }
+
+    _loadData(){
+        fetch('https://' + MAIN_HOST + PLACES_REQUEST, {
+                method: 'GET',
+                headers: HEADERS
+            })
+                .then(responce => responce.json())
+                .then(responceJson => this.props.success_places(responceJson.Places.map((item) => ({key: item.PlaceName, num: item.PlaceId}))))
+                .catch(error => this.props.failure_places(error.message));
     }
 
     render() {
@@ -35,9 +48,10 @@ const mapStateToProps = (state) => ({
     loading: state.places.loading
 });
   
-  const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     request_places: () => dispatch(request_places()),
-    success_places: (data) => dispatch(success_places(data))
-  });
+    success_places: (data) => dispatch(success_places(data)),
+    failure_places: (arror) => dispatch(failure_places(error))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Places));

@@ -13,7 +13,6 @@ import {request_carriers, delete_carriers} from '../../actions/carriers';
 import {request_markers, delete_markers} from '../../actions/markers';
 import {request_places, delete_places} from '../../actions/places';
 import {change_tab} from '../../actions/nav';
-import {callFetch} from '../../services/api';
 
 const amountOfMarkers = 10;
 let loadedAmount = 0;

@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
 import {request_carriers, success_carriers, failure_carriers, delete_carriers} from '../../actions/carriers';
+import {callFetch} from '../../services/api';
+
+import {HEADERS, MAIN_HOST, CARRIERS_REQUEST} from '../../config';
 
 import {styles} from './styles';
 
@@ -15,9 +18,20 @@ class Carriers extends React.Component {
 
     componentDidUpdate(){
         if(this.props.loading === true){
-            this.props.success_carriers([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+            this._loadData();
         }
     }
+
+    _loadData(){
+        fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
+                method: 'GET',
+                headers: HEADERS
+            })
+                .then(responce => responce.json())
+                .then(responceJson => this.props.success_carriers(responceJson.Carriers.map((item) => ({key: item.Name, num: item.CarrierId}))))
+                .catch(error => this.props.failure_carriers(error.message));
+    }
+
     render() {
         return(
         <View style={styles.container}>
@@ -38,9 +52,10 @@ const mapStateToProps = (state) => ({
     loading: state.carriers.loading
 });
   
-  const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
     request_carriers: () => dispatch(request_carriers()),
-    success_carriers: (data) => dispatch(success_carriers(data))
-  });
+    success_carriers: (data) => dispatch(success_carriers(data)),
+    failure_carriers: (error) => dispatch(failure_carriers(error))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Carriers));
