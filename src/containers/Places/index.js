@@ -3,7 +3,7 @@ import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
-import {request_places, success_places} from '../../actions/places';
+import {request_places, success_places, failure_places} from '../../actions/places';
 
 import {HEADERS, MAIN_HOST, PLACES_REQUEST} from '../../config';
 import {} from '../../constants/constants';

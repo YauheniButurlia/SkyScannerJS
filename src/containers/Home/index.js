@@ -14,11 +14,6 @@ import {request_markers, delete_markers} from '../../actions/markers';
 import {request_places, delete_places} from '../../actions/places';
 import {change_tab} from '../../actions/nav';
 
-const amountOfMarkers = 10;
-let loadedAmount = 0;
-const neededAmount = 80;
-let offset = 0;
-
 export class Home extends React.Component {
 
     static navigationOptions = ({navigation}) => {

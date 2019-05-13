@@ -20,9 +20,9 @@ class Markers extends React.Component {
     }
 
     componentDidUpdate(){
-      if(this.props.loading === true){
-        this._loadData();
-      }
+        if(this.props.loading === true){
+            this._loadData();
+        }
     }
 
     _loadData(){

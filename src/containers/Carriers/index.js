@@ -3,7 +3,7 @@ import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
-import {request_carriers, success_carriers, failure_carriers, delete_carriers} from '../../actions/carriers';
+import {request_carriers, success_carriers, failure_carriers} from '../../actions/carriers';
 import {callFetch} from '../../services/api';
 
 import {HEADERS, MAIN_HOST, CARRIERS_REQUEST} from '../../config';
