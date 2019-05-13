@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import MapView, {Marker} from 'react-native-maps';
 import {withNavigation} from 'react-navigation';
 
-import {request_markers, success_markers} from '../../actions/markers';
+import {request_markers, success_markers, failure_markers} from '../../actions/markers';
 
 import {styles} from './styles';
 
@@ -37,6 +37,7 @@ class Markers extends React.Component {
             latitude: parseFloat(item.latitude),
             longitude: parseFloat(item.longitude)
           })))
+          .catch(error => this.propr.failure_markers(error.message))
         )
     }
 
@@ -67,7 +68,8 @@ const mapStateToProps = (state) => ({
   
 const mapDispatchToProps = dispatch => ({
     request_markers: () => dispatch(request_markers()),
-    success_markers: (data) => dispatch(success_markers(data))
+    success_markers: (data) => dispatch(success_markers(data)),
+    failure_markers: (error) => dispatch(failure_markers(error))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Markers));
