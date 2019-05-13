@@ -1,6 +1,6 @@
 import {REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES, DELETE_PLACES} from '../constants/actionTypes';
 
-export default function places(state, action) {
+export default function places(state = {data: [], error: '', loading: false}, action) {
     switch(action.type){
         case REQUEST_PLACES:
             return {...state, places: {data: [], error: '', loading: true}};

@@ -2,8 +2,6 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import { connect } from 'react-redux';
-import MapView, { PROVIDER_GOOGLE  , Marker, Callout, MarkerAnimated} from 'react-native-maps';
-import {CustomMarker} from '../../components/CustomMarker';
 
 import {request, del, success, failure, uploadData} from '../../actions/actions';
 import {callFetch} from '../../services/api';
@@ -14,6 +12,10 @@ import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
    PLANES_TAB_INDEX, CARRIERS_TAB_INDEX,
   INITIAL_REGION, HEADERS} from '../../constants/constants'
 
+import Carriers from '../Carriers';
+import Markers from '../Markers';
+import Places from '../Places';
+
 //AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
 
 //https://datasf.org/opendata/
@@ -23,9 +25,6 @@ import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
 //The locations of assets like trash cans, picnic tables, 
 //benches, etc, operated and maintained by Rec and Park.
 
-
-
-const icon = require('../../assets/pin.png');
 
 const amountOfMarkers = 10;
 let loadedAmount = 0;
@@ -50,7 +49,7 @@ export class Home extends React.Component {
       this.props.navigation.setParams({ download: this._download, delete: this._delete});
     }
 
-    _download = (id) => {
+    _download = (id) => {/*
       const index = this.state.index;
       this.props.request(index);
       switch(index) {
@@ -65,7 +64,7 @@ export class Home extends React.Component {
           break;
         default:
           break;
-      }
+      }*/
     }
 
     _repeatedCall = () => {
@@ -121,12 +120,12 @@ export class Home extends React.Component {
           .then(loadedAmount = loadedAmount + amountOfMarkers);     
     }
 
-    _delete = () => {
+    _delete = () => {/*
       if(this.state.index === GEO_TAB_INDEX) {
         offset = 0;
         loadedAmount = 0;
       }
-      this.props.del(this.state.index);
+      this.props.del(this.state.index);*/
     }
 
     state = {
@@ -140,40 +139,14 @@ export class Home extends React.Component {
 
       _renderScene = ({ route }) => {
         switch (route.key) {
-        case CARRIERS_TAB_INDEX:
-          return <View style={{ backgroundColor: '#ff4081', flex: 1 }}>
-              <FlatList
-                  data={this.props.data1} //this.props.data1
-                  renderItem={({item}) => <Text style={styles.item}
-                  onPress={() => this.props.navigation.navigate('Details',
-                  {key: item.key, id: item.num})}>{item.key}</Text>}
-              /></View>;
-        case PLANES_TAB_INDEX:
-          return <View style={{ backgroundColor: '#673ab7', flex: 1 }}>
-              <FlatList
-                data={this.props.data2}
-                renderItem={({item}) => <Text style={styles.item}
-                onPress={() => this.props.navigation.navigate('Details',
-                {key: item.key, id: item.num})}
-                >{item.key}</Text>}
-              /></View>;
-        case GEO_TAB_INDEX:
-          return <View style={{flex: 1}}>
-            <MapView
-              cacheEnabled={true}
-              style={styles.map}
-              initialRegion={INITIAL_REGION}>
-                {this.props.markers.map(marker => 
-                  <Marker
-                      title={marker.title}
-                      description={marker.desc}
-                      key={marker.key}
-                      coordinate={marker}
-                      icon={icon}/>)}
-            </MapView>
-          </View>
-        default:
-          return null;
+          case CARRIERS_TAB_INDEX:
+            return <Carriers />; 
+          case PLANES_TAB_INDEX:
+            return <Places />;
+          case GEO_TAB_INDEX:
+            return <Markers />;
+          default:
+            return null;
         }
       };
 
@@ -191,19 +164,10 @@ export class Home extends React.Component {
   }
 /********************************************************************************************/
 
-const mapStateToProps = (state) => {
-  //console.log(state);
-  return ({
-  data1: state.data1,
-  data2: state.data2,
-  markers: state.data3,
-})};
+//const mapStateToProps = (state) => ();
 
 const mapDispatchToProps = dispatch => ({
-  request: (id) => dispatch(request(id)),
-  success: (id,info) => dispatch(success(id,info)),
-  del: (id) => dispatch(del(id)),
-  failure: (id,err) => dispatch(failure(id,err))
+  change_tab: (index) => dispatch(change_tab(index))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(undefined, mapDispatchToProps)(Home);

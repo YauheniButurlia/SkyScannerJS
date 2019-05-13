@@ -1,6 +1,6 @@
 import {REQUEST_MARKERS, SUCCESS_MARKERS, FAILURE_MARKERS, DELETE_MARKERS} from '../constants/actionTypes';
 
-export default function markers(state, action) {
+export default function markers(state = {data: [], error: '', loading: false}, action) {
     switch(action.type){
         case REQUEST_MARKERS:
             return {...state, markers: {data: [], error: '', loading: true}};

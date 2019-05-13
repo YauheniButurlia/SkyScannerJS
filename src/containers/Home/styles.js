@@ -16,7 +16,4 @@ export const styles = StyleSheet.create({
             height: 44,
             borderWidth: 2
         },
-        map: {
-          ...StyleSheet.absoluteFillObject,
-        },
   });

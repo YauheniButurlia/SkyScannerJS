@@ -8,12 +8,13 @@ import {combineReducers} from 'redux';
 import carriers from './carriers';
 import markers from './markers';
 import places from './places';
+import nav from './nav';
 
 export default combineReducers({
   carriers,
   places,
   markers,
-  nav
+  selectedTabIndex: nav
 });
 
 /*

@@ -39,7 +39,7 @@ export const success_carriers = (data) => ({
   type: SUCCESS_CARRIERS,
   data: data,
 });
-export const success_carriers = (err) => ({
+export const failure_carriers = (err) => ({
   type: FAILURE_CARRIERS,
   error: err,
 });
