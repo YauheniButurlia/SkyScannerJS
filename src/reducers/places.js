@@ -3,13 +3,13 @@ import {REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES, DELETE_PLACES} from '../
 export default function places(state = {data: [], error: '', loading: false}, action) {
     switch(action.type){
         case REQUEST_PLACES:
-            return {...state, places: {data: [], error: '', loading: true}};
+            return {...state, loading: true};
         case SUCCESS_PLACES:
-            return {...state, places: {data: action.data, error: '', loading: false}};
+            return {...state, data: action.data, loading: false};
         case FAILURE_PLACES:
-            return {...state, places: {data: [], error: action.error, loading: false}};
+            return {...state, error: action.error, loading: false};
         case DELETE_PLACES:
-            return {...state, places: {data: [], error: '', loading: false}};
+            return {data: [], error: '', loading: false};
         default:
             return state;
     }

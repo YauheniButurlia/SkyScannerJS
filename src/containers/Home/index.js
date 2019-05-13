@@ -13,6 +13,7 @@ import Carriers from '../Carriers';
 import Markers from '../Markers';
 import Places from '../Places';
 
+import {request_carriers, success_carriers, failure_carriers, delete_carriers} from '../../actions/carriers';
 import {change_tab} from '../../actions/nav';
 import {callFetch} from '../../services/api';
 
@@ -39,9 +40,8 @@ export class Home extends React.Component {
       this.props.navigation.setParams({ download: this._download, delete: this._delete});
     }
 
-    _download = (id) => {/*
+    _download = (id) => {
       const index = this.state.index;
-      this.props.request(index);
       switch(index) {
         case CARRIERS_TAB_INDEX:
           this._fetchCarriers();
@@ -54,7 +54,7 @@ export class Home extends React.Component {
           break;
         default:
           break;
-      }*/
+      }
     }
 
     _repeatedCall = () => {
@@ -68,12 +68,16 @@ export class Home extends React.Component {
     }
 
     _fetchCarriers = () => {
+      this.props.request_carriers();
+      /*
       callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, 
-      HEADERS, 
+      HEADERS,
       CARRIERS_TAB_INDEX, 
       'Carriers', 
       (item) => ({key: item.Name, num: item.CarrierId}), 
       this);
+      */
+      this.props.success_carriers([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
     }
 
     _fetchPlanes = () => {
@@ -110,12 +114,12 @@ export class Home extends React.Component {
           .then(loadedAmount = loadedAmount + amountOfMarkers);     
     }
 
-    _delete = () => {/*
+    _delete = () => {
       if(this.state.index === GEO_TAB_INDEX) {
         offset = 0;
         loadedAmount = 0;
       }
-      this.props.del(this.state.index);*/
+      this.props.del(this.state.index);
     }
 
     state = {
@@ -146,7 +150,7 @@ export class Home extends React.Component {
             <TabView
                 navigationState={this.state}
                 renderScene={this._renderScene}
-                onIndexChange={index => {this.setState({ index })}}//;this.props.change_tab(index)
+                onIndexChange={index => {this.setState({ index });this.props.change_tab(index)}}
                 initialLayout={{ width: Dimensions.get('window').width }}
              />
         );
@@ -158,7 +162,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  change_tab: (index) => dispatch(change_tab(index))
+  change_tab: (index) => dispatch(change_tab(index)),
+  request_carriers: () => dispatch(request_carriers()),
+  success_carriers: (data) => dispatch(success_carriers(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -10,10 +10,4 @@ export const styles = StyleSheet.create({
     scene: {
         flex: 1,
       },
-        item: {
-            padding: 10,
-            fontSize: 18,
-            height: 44,
-            borderWidth: 2
-        },
   });

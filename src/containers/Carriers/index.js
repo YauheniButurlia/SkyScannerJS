@@ -10,16 +10,21 @@ class Carriers extends React.Component {
         <View style={styles.container}>
             <FlatList
                 data={this.props.data}
-                renderItem={({item}) => <Text style={styles.item}
-                onPress={() => this.props.navigation.navigate('Details',
-                {key: item.key, id: item.num})}>{item.key}</Text>}/>
+                renderItem={({item}) => 
+                <Text style={styles.item}
+                    onPress={
+                        () => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}>
+                        {item.key}
+                </Text>}/>
             </View>);
     }
 }
 
-const mapStateToProps = (state) => ({
-    data: state.carriers.data,
-});
+const mapStateToProps = (state) => {
+    console.log(state);
+    return({
+    data: state.carriers.data,})
+    };
   
   const mapDispatchToProps = dispatch => ({
     
