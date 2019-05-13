@@ -2,9 +2,15 @@ import React from "react";
 import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
 
+import {request_carriers, success_carriers, failure_carriers, delete_carriers} from '../../actions/carriers';
+
 import {styles} from './styles';
 
 class Carriers extends React.Component {
+    componentDidMount(){
+        this.props.request_carriers();
+        this.props.success_carriers([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+    }
     render() {
         return(
         <View style={styles.container}>
@@ -25,7 +31,8 @@ const mapStateToProps = (state) => ({
 });
   
   const mapDispatchToProps = dispatch => ({
-    
+    request_carriers: () => dispatch(request_carriers()),
+    success_carriers: (data) => dispatch(success_carriers(data))
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Carriers);

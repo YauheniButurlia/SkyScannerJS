@@ -2,9 +2,16 @@ import React from "react";
 import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
 
+import {request_places, success_places} from '../../actions/places';
+
 import {styles} from './styles';
 
 class Places extends React.Component {
+    componentDidMount(){
+        this.props.request_places();
+        this.props.success_places([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+    }
+
     render() {
         return(
         <View style={styles.container}>
@@ -22,7 +29,8 @@ const mapStateToProps = (state) => ({
 });
   
   const mapDispatchToProps = dispatch => ({
-    
+    request_places: () => dispatch(request_places()),
+    success_places: (data) => dispatch(success_places(data))
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Places);
