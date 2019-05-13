@@ -8,9 +8,15 @@ import {request_carriers, success_carriers, failure_carriers, delete_carriers} f
 import {styles} from './styles';
 
 class Carriers extends React.Component {
+
     componentDidMount(){
-        this.props.request_carriers();
-        this.props.success_carriers([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+        
+    }
+
+    componentDidUpdate(){
+        if(this.props.loading === true){
+            this.props.success_carriers([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+        }
     }
     render() {
         return(
@@ -29,6 +35,7 @@ class Carriers extends React.Component {
 
 const mapStateToProps = (state) => ({
     data: state.carriers.data,
+    loading: state.carriers.loading
 });
   
   const mapDispatchToProps = dispatch => ({

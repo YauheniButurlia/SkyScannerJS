@@ -46,3 +46,62 @@ export const apiMiddleware = store => next => action => {
         type: requestType,
       });
 };
+/*
+    _fetchGeo(){
+      return new Promise(resolve => {
+        setTimeout(() => resolve('resolved'), 200);
+      })
+    }
+*/
+
+/*
+    _repeatedCall = () => {
+      this._fetchGeo()
+      .then(() => {
+        this._fetchMarkers();
+        if(loadedAmount < neededAmount) {
+          this._repeatedCall();
+        }
+      });
+    }
+*/
+
+
+/*
+      callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, 
+      HEADERS,
+      CARRIERS_TAB_INDEX, 
+      'Carriers', 
+      (item) => ({key: item.Name, num: item.CarrierId}), 
+      this);
+    */
+
+    
+/*
+      callFetch('https://' + MAIN_HOST + PLANES_REQUEST, 
+      HEADERS, 
+      PLANES_TAB_INDEX,
+      'Places',
+      (item) => ({key: item.PlaceName, num: item.PlaceId}),
+      this);
+      */
+
+/*
+          offset = offset + amountOfMarkers + 1;
+
+          callFetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset,
+          undefined,
+          GEO_TAB_INDEX, 
+          undefined,
+          (item) => (
+            {
+              key: item.asset_id,
+              title: item.map_label,
+              desc: item.tma_asset_name,
+              latitude: parseFloat(item.latitude),
+              longitude: parseFloat(item.longitude)
+            }),
+          this)
+          .then(loadedAmount = loadedAmount + amountOfMarkers);  
+          
+          */

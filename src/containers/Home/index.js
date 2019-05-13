@@ -9,6 +9,9 @@ import Carriers from '../Carriers';
 import Markers from '../Markers';
 import Places from '../Places';
 
+import {request_carriers, delete_carriers} from '../../actions/carriers';
+import {request_markers, delete_markers} from '../../actions/markers';
+import {request_places, delete_places} from '../../actions/places';
 import {change_tab} from '../../actions/nav';
 import {callFetch} from '../../services/api';
 
@@ -39,86 +42,34 @@ export class Home extends React.Component {
       const index = this.state.index;
       switch(index) {
         case CARRIERS_TAB_INDEX:
-          this._fetchCarriers();
+          this.props.request_carriers();
           break;
         case PLANES_TAB_INDEX:
-          this._fetchPlanes();
+          this.props.request_places();
           break;
         case GEO_TAB_INDEX:
-          this._fetchMarkers();//_repeatedCall();
+          this.props.request_markers();
           break;
         default:
           break;
       }
     }
-/*
-    _repeatedCall = () => {
-      this._fetchGeo()
-      .then(() => {
-        this._fetchMarkers();
-        if(loadedAmount < neededAmount) {
-          this._repeatedCall();
-        }
-      });
-    }
-*/
-    _fetchCarriers = () => {
-
-    /*
-      callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, 
-      HEADERS,
-      CARRIERS_TAB_INDEX, 
-      'Carriers', 
-      (item) => ({key: item.Name, num: item.CarrierId}), 
-      this);
-    */}
-
-    _fetchPlanes = () => {
-      /*
-      callFetch('https://' + MAIN_HOST + PLANES_REQUEST, 
-      HEADERS, 
-      PLANES_TAB_INDEX,
-      'Places',
-      (item) => ({key: item.PlaceName, num: item.PlaceId}),
-      this);
-      */
-    }
-
-    _fetchGeo(){
-      return new Promise(resolve => {
-        setTimeout(() => resolve('resolved'), 200);
-      })
-    }
-
-    _fetchMarkers = () => {
-
-      /*
-          offset = offset + amountOfMarkers + 1;
-
-          callFetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset,
-          undefined,
-          GEO_TAB_INDEX, 
-          undefined,
-          (item) => (
-            {
-              key: item.asset_id,
-              title: item.map_label,
-              desc: item.tma_asset_name,
-              latitude: parseFloat(item.latitude),
-              longitude: parseFloat(item.longitude)
-            }),
-          this)
-          .then(loadedAmount = loadedAmount + amountOfMarkers);  
-          
-          */   
-    }
 
     _delete = () => {
-      if(this.state.index === GEO_TAB_INDEX) {
-        offset = 0;
-        loadedAmount = 0;
+      const index = this.state.index;
+      switch(index) {
+        case CARRIERS_TAB_INDEX:
+          this.props.delete_carriers();
+          break;
+        case PLANES_TAB_INDEX:
+          this.props.delete_places();
+          break;
+        case GEO_TAB_INDEX:
+          this.props.delete_markers();
+          break;
+        default:
+          break;
       }
-      this.props.del(this.state.index);
     }
 
     state = {
@@ -162,6 +113,15 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   change_tab: (index) => dispatch(change_tab(index)),
+
+  request_carriers: () => dispatch(request_carriers()),
+  delete_carriers: () => dispatch(delete_carriers()),
+
+  request_places: () => dispatch(request_places()),
+  delete_places: () => dispatch(delete_places()),
+
+  request_markers: () => dispatch(request_markers()),
+  delete_markers: () => dispatch(delete_markers()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

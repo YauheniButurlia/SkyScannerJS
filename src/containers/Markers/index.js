@@ -14,10 +14,14 @@ const ICON_IMAGE = require('../../../assets/pin.png');
 
 class Markers extends React.Component {
     componentDidMount(){
-        this.props.request_markers();
-      this.props.success_markers([{key: 345, title: '12313', desc: 'ihfashfipsuhfiuas',
+        
+    }
+    componentDidUpdate(){
+      if(this.props.loading === true){
+        this.props.success_markers([{key: 345, title: '12313', desc: 'ihfashfipsuhfiuas',
     latitude: 37.782846, longitude: -122.470037},{key: 12, title: '1233553', desc: 'ih253423424suhfiuas',
     latitude: 37.783046, longitude: -122.460137}]);
+      }
     }
     render() {
         return(
@@ -41,6 +45,7 @@ class Markers extends React.Component {
 
 const mapStateToProps = (state) => ({
     data: state.markers.data,
+    loading: state.markers.loading
 });
   
   const mapDispatchToProps = dispatch => ({

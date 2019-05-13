@@ -9,8 +9,13 @@ import {styles} from './styles';
 
 class Places extends React.Component {
     componentDidMount(){
-        this.props.request_places();
-        this.props.success_places([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+        
+    }
+
+    componentDidUpdate(){
+        if(this.props.loading === true){
+            this.props.success_places([{key:'Hi', num:3543},{key:'There', num:126534},{key:'ASDasdad', num:564}]);
+        }
     }
 
     render() {
@@ -27,6 +32,7 @@ class Places extends React.Component {
 
 const mapStateToProps = (state) => ({
     data: state.places.data,
+    loading: state.places.loading
 });
   
   const mapDispatchToProps = dispatch => ({
