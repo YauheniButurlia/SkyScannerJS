@@ -1,6 +1,7 @@
 import React from "react";
 import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
+import {withNavigation} from 'react-navigation';
 
 import {request_places, success_places} from '../../actions/places';
 
@@ -33,4 +34,4 @@ const mapStateToProps = (state) => ({
     success_places: (data) => dispatch(success_places(data))
   });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Places);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Places));

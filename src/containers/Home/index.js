@@ -133,11 +133,11 @@ export class Home extends React.Component {
       _renderScene = ({ route }) => {
         switch (route.key) {
           case CARRIERS_TAB_INDEX:
-            return <Carriers navigation={this.props.navigation}/>; 
+            return <Carriers />; 
           case PLANES_TAB_INDEX:
-            return <Places navigation={this.props.navigation}/>;
+            return <Places />;
           case GEO_TAB_INDEX:
-            return <Markers navigation={this.props.navigation}/>;
+            return <Markers />;
           default:
             return null;
         }

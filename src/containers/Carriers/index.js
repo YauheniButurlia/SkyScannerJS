@@ -1,6 +1,7 @@
 import React from "react";
 import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
+import {withNavigation} from 'react-navigation';
 
 import {request_carriers, success_carriers, failure_carriers, delete_carriers} from '../../actions/carriers';
 
@@ -35,4 +36,4 @@ const mapStateToProps = (state) => ({
     success_carriers: (data) => dispatch(success_carriers(data))
   });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Carriers);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Carriers));

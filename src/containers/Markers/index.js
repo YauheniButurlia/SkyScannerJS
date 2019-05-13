@@ -2,6 +2,7 @@ import React from "react";
 import {View} from 'react-native';
 import {connect} from 'react-redux';
 import MapView, {Marker} from 'react-native-maps';
+import {withNavigation} from 'react-navigation';
 
 import {request_markers, success_markers} from '../../actions/markers';
 
@@ -47,4 +48,4 @@ const mapStateToProps = (state) => ({
     success_markers: (data) => dispatch(success_markers(data))
   });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Markers);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Markers));
