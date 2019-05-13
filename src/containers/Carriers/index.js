@@ -20,11 +20,9 @@ class Carriers extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    console.log(state);
-    return({
-    data: state.carriers.data,})
-    };
+const mapStateToProps = (state) => ({
+    data: state.carriers.data,
+});
   
   const mapDispatchToProps = dispatch => ({
     
