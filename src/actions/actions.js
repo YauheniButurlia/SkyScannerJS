@@ -4,7 +4,7 @@ import {REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS,
   REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES,
   REQUEST_MARKERS, SUCCESS_MARKERS, FAILURE_MARKERS,
   DELETE_CARRIERS, DELETE_PLACES, DELETE_MARKERS, 
-  CHANGE_TAB} from '../../src/constants/actionTypes';
+  CHANGE_TAB} from '../constants/actionTypes';
 
 /*
 export const request = (id) => ({

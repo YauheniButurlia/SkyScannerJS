@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE  , Marker, Callout, MarkerAnimated} from 'react-native-maps';
 import {CustomMarker} from '../../components/CustomMarker';
 
-import {request, del, success, failure, uploadData} from '../../actions/Actions';
+import {request, del, success, failure, uploadData} from '../../actions/actions';
 import {callFetch} from '../../services/api';
 import {styles} from './styles'
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
