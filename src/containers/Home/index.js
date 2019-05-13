@@ -203,8 +203,7 @@ const mapDispatchToProps = dispatch => ({
   request: (id) => dispatch(request(id)),
   success: (id,info) => dispatch(success(id,info)),
   del: (id) => dispatch(del(id)),
-  failure: (id,err) => dispatch(failure(id,err)),
-  uploadData: (id) => dispatch(uploadData(id))
+  failure: (id,err) => dispatch(failure(id,err))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
