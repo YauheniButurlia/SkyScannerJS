@@ -1,5 +1,5 @@
 import {REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS,DELETE_CARRIERS} from '../constants/actionTypes';
-/*
+
 export const request_carriers = () => ({
     type: REQUEST_CARRIERS,
   });
@@ -13,4 +13,4 @@ export const request_carriers = () => ({
   });
   export const delete_carriers = () => ({
     type: DELETE_CARRIERS,
-  });*/
+  });

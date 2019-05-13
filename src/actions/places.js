@@ -1,5 +1,5 @@
 import {REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES, DELETE_PLACES} from '../constants/actionTypes';
-/*
+
 export const request_places = () => ({
     type: REQUEST_PLACES,
   });
@@ -13,4 +13,4 @@ export const request_places = () => ({
   });
   export const delete_places = () => ({
     type: DELETE_PLACES,
-  });*/
+  });

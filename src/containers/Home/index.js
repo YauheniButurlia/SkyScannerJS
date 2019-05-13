@@ -1,11 +1,8 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, Dimensions, FlatList, Alert} from 'react-native';
+import {Button, Dimensions} from 'react-native';
 import {TabView} from 'react-native-tab-view';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import {request, del, success, failure, uploadData} from '../../actions/actions';
-import {callFetch} from '../../services/api';
-import {styles} from './styles'
 import {API_KEY, MAIN_HOST, CARRIERS_REQUEST,
    PLANES_REQUEST, GEO_REQUEST, LIMIT_PARAM,
    OFFSET_PARAM, GEO_TAB_INDEX,
@@ -16,15 +13,8 @@ import Carriers from '../Carriers';
 import Markers from '../Markers';
 import Places from '../Places';
 
-//AIzaSyCnFFWXNiz_ZJ5_OYi4iZrM6G8h_Ej_o24        google maps api key
-
-//https://datasf.org/opendata/
-
-//https://data.sfgov.org/resource/se33-6ad4.json?$limit=120   SF API ENDPOINT
-
-//The locations of assets like trash cans, picnic tables, 
-//benches, etc, operated and maintained by Rec and Park.
-
+import {change_tab} from '../../actions/nav';
+import {callFetch} from '../../services/api';
 
 const amountOfMarkers = 10;
 let loadedAmount = 0;
@@ -156,7 +146,7 @@ export class Home extends React.Component {
             <TabView
                 navigationState={this.state}
                 renderScene={this._renderScene}
-                onIndexChange={index => this.setState({ index })}
+                onIndexChange={index => {this.setState({ index })}}//;this.props.change_tab(index)
                 initialLayout={{ width: Dimensions.get('window').width }}
              />
         );
@@ -164,10 +154,11 @@ export class Home extends React.Component {
   }
 /********************************************************************************************/
 
-//const mapStateToProps = (state) => ();
+const mapStateToProps = (state) => ({
+});
 
 const mapDispatchToProps = dispatch => ({
   change_tab: (index) => dispatch(change_tab(index))
 });
 
-export default connect(undefined, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
