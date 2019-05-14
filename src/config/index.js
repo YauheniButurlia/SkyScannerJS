@@ -12,3 +12,7 @@ export const HEADERS = {
     'X-RapidAPI-Host': MAIN_HOST,
     'X-RapidAPI-Key': API_KEY
   };
+export const REQUEST_OPTIONS = {
+  method: 'GET',
+  headers: HEADERS
+};

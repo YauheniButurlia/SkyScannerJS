@@ -1,28 +1,29 @@
-export function callFetch(request, headers, tab_index, JSONfield, map_function, comp){
-    let requestOptions = {
-        method: 'GET',
-        headers: headers
-    };
+import {GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../config';
+import {REQUEST_OPTIONS, HEADERS, MAIN_HOST, CARRIERS_REQUEST, PLACES_REQUEST} from '../config';
 
-    if(headers === undefined){
-         return fetch(request)
-            .then((response) => response.json())
-            .then((responseJson) => 
-                comp.props.success(tab_index, responseJson.map(map_function))
-            ).catch((err) => comp.props.failure(tab_index, err.message)); 
-    } else {
-        fetch(request, requestOptions)
-            .then((response) => response.json())
-            .then((responseJson) => 
-                comp.props.success(tab_index, responseJson[JSONfield].map(map_function))
-            ).catch((err) => comp.props.failure(tab_index, err.message));
-    }
+const AMOUNT_OF_MARKERS = 200;
+const OFFSET = 0;
+
+export function fetchMarkers(){
+  return callJSON(fetch(makeGeoRequestString(AMOUNT_OF_MARKERS, OFFSET)));
+}
+export function fetchCarriers(){
+  return callJSON(fetch(...makeSkyScannerRequest(CARRIERS_REQUEST)));
+}
+export function fetchPlaces(){
+  return callJSON(fetch(...makeSkyScannerRequest(PLACES_REQUEST)));
 }
 
-export function callAPI(){
-
+function makeGeoRequestString(limit, offset){
+  return GEO_REQUEST + '?' + LIMIT_PARAM + limit + '&' + OFFSET_PARAM + offset;
+}
+function makeSkyScannerRequest(request){
+  return ['https://' + MAIN_HOST + request, REQUEST_OPTIONS];
 }
 
+function callJSON(promise){
+  return promise.then(responce => responce.json());
+}
 
 export const apiMiddleware = store => next => action => {
     console.log(action);

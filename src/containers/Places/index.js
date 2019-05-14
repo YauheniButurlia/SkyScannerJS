@@ -5,10 +5,8 @@ import {withNavigation} from 'react-navigation';
 
 import {request_places, success_places, failure_places} from '../../actions/places';
 
-import {HEADERS, MAIN_HOST, PLACES_REQUEST} from '../../config';
-import {} from '../../constants/constants';
-
 import {styles} from './styles';
+import {fetchPlaces} from "../../services/api";
 
 class Places extends React.Component {
     componentDidMount(){
@@ -22,12 +20,9 @@ class Places extends React.Component {
     }
 
     _loadData(){
-        fetch('https://' + MAIN_HOST + PLACES_REQUEST, {
-                method: 'GET',
-                headers: HEADERS
-            })
-                .then(responce => responce.json())
-                .then(responceJson => this.props.success_places(responceJson.Places.map((item) => ({key: item.PlaceName, num: item.PlaceId}))))
+        fetchPlaces()
+                .then(responceJson => this.props.success_places(responceJson.Places.map(
+                    (item) => ({key: item.PlaceName, num: item.PlaceId}))))
                 .catch(error => this.props.failure_places(error.message));
     }
 

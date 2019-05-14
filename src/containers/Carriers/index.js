@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
 import {request_carriers, success_carriers, failure_carriers} from '../../actions/carriers';
-import {callFetch} from '../../services/api';
-
-import {HEADERS, MAIN_HOST, CARRIERS_REQUEST} from '../../config';
+import {fetchCarriers} from '../../services/api';
 
 import {styles} from './styles';
 
@@ -23,12 +21,9 @@ class Carriers extends React.Component {
     }
 
     _loadData(){
-        fetch('https://' + MAIN_HOST + CARRIERS_REQUEST, {
-                method: 'GET',
-                headers: HEADERS
-            })
-                .then(responce => responce.json())
-                .then(responceJson => this.props.success_carriers(responceJson.Carriers.map((item) => ({key: item.Name, num: item.CarrierId}))))
+        fetchCarriers()
+                .then(responceJson => this.props.success_carriers(responceJson.Carriers.map(
+                    (item) => ({key: item.Name, num: item.CarrierId}))))
                 .catch(error => this.props.failure_carriers(error.message));
     }
 
