@@ -5,6 +5,8 @@ import {withNavigation} from 'react-navigation';
 
 import {download_carriers} from '../../actions/carriers';
 
+
+import Card from '../../components/Card';
 import {styles} from './styles';
 
 class Carriers extends React.Component {
@@ -23,14 +25,18 @@ class Carriers extends React.Component {
             <FlatList
                 data={this.props.data}
                 renderItem={({item}) => 
-                <Text style={styles.item}
-                    onPress={
-                        () => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}>
-                        {item.key}
-                </Text>}/>
+                <Card item={item}/>}/>
             </View>);
     }
 }
+
+/*
+<Text style={styles.item}
+                    onPress={
+                        () => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}>
+                        {item.key}
+                </Text>
+*/
 
 const mapStateToProps = (state) => ({
     data: state.carriers.data
