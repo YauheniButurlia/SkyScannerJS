@@ -20,4 +20,4 @@ export const REQUEST_OPTIONS = {
 
 export const CARRIERS_ENDPOINT = 'https://' + MAIN_HOST + CARRIERS_REQUEST;
 export const PLACES_ENDPOINT = 'https://' + MAIN_HOST + PLACES_REQUEST;
-export const GEO_ENDPOINT = 'https://data.sfgov.org/resource/se33-6ad4.json$limit='  +  100 + '$offset=' + 0;
+export const GEO_ENDPOINT = 'https://data.sfgov.org/resource/se33-6ad4.json' + '?' +  '$limit='  + 120;

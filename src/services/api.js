@@ -5,23 +5,6 @@ import { REQUEST_CARRIERS } from '../constants/actionTypes';
 const AMOUNT_OF_MARKERS = 200;
 const OFFSET = 0;
 
-export function fetchMarkers(){
-  return callJSON(fetch(makeGeoRequestString(AMOUNT_OF_MARKERS, OFFSET)));
-}
-export function fetchCarriers(){
-  return callJSON(fetch(...makeSkyScannerRequest(CARRIERS_REQUEST)));
-}
-export function fetchPlaces(){
-  return callJSON(fetch(...makeSkyScannerRequest(PLACES_REQUEST)));
-}
-
-function makeGeoRequestString(limit, offset){
-  return GEO_REQUEST + '?' + LIMIT_PARAM + limit + '&' + OFFSET_PARAM + offset;
-}
-function makeSkyScannerRequest(request){
-  return ['https://' + MAIN_HOST + request, REQUEST_OPTIONS];
-}
-
 function callJSON(promise){
   return promise.then(responce => responce.json());
 }
@@ -66,11 +49,11 @@ export const apiMiddleware = store => next => action => {
       });
     
     return callAPI(endpoint, options).then(
-      response => {
-          console.log('response');
+      responseJson => {
+          console.log(responseJson);
           next({
             type: successType,
-            data: response
+            data: responseJson
           })
       },
       error => {
@@ -83,23 +66,3 @@ export const apiMiddleware = store => next => action => {
 
 
 };
-
-/*
-    _fetchGeo(){
-      return new Promise(resolve => {
-        setTimeout(() => resolve('resolved'), 200);
-      })
-    }
-*/
-
-/*
-    _repeatedCall = () => {
-      this._fetchGeo()
-      .then(() => {
-        this._fetchMarkers();
-        if(loadedAmount < neededAmount) {
-          this._repeatedCall();
-        }
-      });
-    }
-*/

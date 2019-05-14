@@ -8,21 +8,20 @@ import {download_carriers} from '../../actions/carriers';
 import {styles} from './styles';
 
 class Carriers extends React.Component {
-    arrayOfCarriers = [];
-
+    
     componentDidMount(){
         this.props.download_carriers();
     }
 
     componentDidUpdate(){
-        this.arrayOfCarriers = this.props.data.Carriers.map((item) => ({key: item.Name, num: item.CarrierId}));
+
     }
 
     render() {
         return(
         <View style={styles.container}>
             <FlatList
-                data={this.arrayOfCarriers}
+                data={this.props.data}
                 renderItem={({item}) => 
                 <Text style={styles.item}
                     onPress={
@@ -34,7 +33,7 @@ class Carriers extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    data: state.carriers.data,
+    data: state.carriers.data
 });
   
 const mapDispatchToProps = dispatch => ({

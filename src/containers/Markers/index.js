@@ -23,20 +23,6 @@ class Markers extends React.Component {
         
     }
 
-    _loadData(){
-        fetchMarkers()
-            .then(responceJson => this.props.success_markers(responceJson.map(
-            (item) => (
-            {
-                key: item.asset_id,
-                title: item.map_label,
-                desc: item.tma_asset_name,
-                latitude: parseFloat(item.latitude),
-                longitude: parseFloat(item.longitude)
-            }))))
-            .catch(error => this.props.failure_markers(error.message))
-    }
-
     render() {
         return(
             <View style={styles.container}>

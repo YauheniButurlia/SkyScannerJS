@@ -9,9 +9,6 @@ import Carriers from '../Carriers';
 import Markers from '../Markers';
 import Places from '../Places';
 
-import {request_carriers, delete_carriers} from '../../actions/carriers';
-import {request_markers, delete_markers} from '../../actions/markers';
-import {request_places, delete_places} from '../../actions/places';
 import {change_tab} from '../../actions/nav';
 
 export class Home extends React.Component {
@@ -42,7 +39,7 @@ export class Home extends React.Component {
           case PLANES_TAB_INDEX:
             return <Places />;
           case GEO_TAB_INDEX:
-            return <Places />;
+            return <Markers />;
           default:
             return null;
         }
@@ -63,6 +60,7 @@ export class Home extends React.Component {
 /********************************************************************************************/
 
 const mapStateToProps = (state) => ({
+
 });
 
 const mapDispatchToProps = dispatch => ({
