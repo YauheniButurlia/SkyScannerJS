@@ -94,7 +94,7 @@ export class Home extends React.Component {
             <TabView
                 navigationState={this.state}
                 renderScene={this._renderScene}
-                onIndexChange={index => {this.setState({ index });this.props.change_tab(index)}}
+                onIndexChange={index => {this.setState({ index })}}//;this.props.change_tab(index)
                 initialLayout={{ width: Dimensions.get('window').width }}
              />
         );

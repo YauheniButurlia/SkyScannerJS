@@ -26,7 +26,7 @@ class Markers extends React.Component {
     }
 
     _loadData(){
-      fetch(GEO_REQUEST + '?' + LIMIT_PARAM + 50 + '&' + OFFSET_PARAM + 0)
+      fetch(GEO_REQUEST + '?' + LIMIT_PARAM + 600 + '&' + OFFSET_PARAM + 0)
         .then(responce => responce.json())
         .then(responceJson => this.props.success_markers(responceJson.map(
           (item) => (
@@ -36,9 +36,8 @@ class Markers extends React.Component {
             desc: item.tma_asset_name,
             latitude: parseFloat(item.latitude),
             longitude: parseFloat(item.longitude)
-          })))
-          .catch(error => this.propr.failure_markers(error.message))
-        )
+          }))))
+          .catch(error => this.props.failure_markers(error.message))
     }
 
     render() {
@@ -48,15 +47,15 @@ class Markers extends React.Component {
                     cacheEnabled={true}
                     style={styles.map}
                     initialRegion={INITIAL_REGION}>
-                        {this.props.data.map(marker => 
+                        {this.props.data.map((marker, index) => 
                             <Marker
                                 title={marker.title}
                                 description={marker.desc}
-                                key={marker.key}
+                                key={index}
                                 coordinate={marker}
                                 icon={ICON_IMAGE}/>)}
                 </MapView>
-          </View>
+            </View>
           );
     }
 }
