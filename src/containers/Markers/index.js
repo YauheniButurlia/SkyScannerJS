@@ -17,7 +17,7 @@ const ICON_IMAGE = require('../../../assets/pin.png');
 class Markers extends React.Component {
 
     componentDidMount(){
-        
+        this.props.request_markers();
     }
 
     componentDidUpdate(){

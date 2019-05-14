@@ -11,10 +11,11 @@ import {styles} from './styles';
 class Carriers extends React.Component {
 
     componentDidMount(){
-        
+        this.props.request_carriers();
     }
 
     componentDidUpdate(){
+        
         if(this.props.loading === true){
             this._loadData();
         }

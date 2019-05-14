@@ -10,7 +10,7 @@ import {fetchPlaces} from "../../services/api";
 
 class Places extends React.Component {
     componentDidMount(){
-        
+        this.props.request_places();
     }
 
     componentDidUpdate(){
