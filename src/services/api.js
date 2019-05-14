@@ -1,5 +1,6 @@
 import {GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../config';
 import {REQUEST_OPTIONS, HEADERS, MAIN_HOST, CARRIERS_REQUEST, PLACES_REQUEST} from '../config';
+import { REQUEST_CARRIERS } from '../constants/actionTypes';
 
 const AMOUNT_OF_MARKERS = 200;
 const OFFSET = 0;
@@ -25,28 +26,64 @@ function callJSON(promise){
   return promise.then(responce => responce.json());
 }
 
+function getFetchAction(endpoint, requestOptions){
+  if(requestOptions === undefined){
+    return callJSON(fetch(endpoint));
+  }
+  return callJSON(fetch(endpoint, requestOptions));
+}
+
+
+function callAPI(endpoint, requestOptions){
+  return Promise.race([
+    getFetchAction(endpoint, requestOptions),
+    new Promise((resolve, reject) => {
+      setTimeout(() => reject(new Error('Request timeout after 50s.')), 50000);
+    })
+  ])
+}
+
 export const apiMiddleware = store => next => action => {
-    console.log(action);
-    const index = action.index;
-    const types = action.types;
-    console.log(types);
-    
-    if(!types && action.type){
+    const {types, endpoint, options} = action;
+
+    if(!endpoint && !types && action.type){
         return next(action);
     }
 
+    if (typeof endpoint !== 'string') {
+      throw new Error('Specify a string endpoint URL.');
+    }
     if(!Array.isArray(types) || types.length !== 3){
         throw new Error('Expected an array of three action types.');
     }
     if(!types.every(type => typeof type === 'string')){
         throw new Error('Expected action types to be strings.');
     }
-    const {requestType, successType, failureType} = types;
+
+    const [requestType, successType, failureType] = types;
     next({
-        index: index,
         type: requestType,
       });
+    
+    return callAPI(endpoint, options).then(
+      response => {
+          console.log('response');
+          next({
+            type: successType,
+            data: response
+          })
+      },
+      error => {
+        next({
+          type: failureType,
+          error: error.message
+        })
+      }
+    );
+
+
 };
+
 /*
     _fetchGeo(){
       return new Promise(resolve => {
@@ -66,43 +103,3 @@ export const apiMiddleware = store => next => action => {
       });
     }
 */
-
-
-/*
-      callFetch('https://' + MAIN_HOST + CARRIERS_REQUEST, 
-      HEADERS,
-      CARRIERS_TAB_INDEX, 
-      'Carriers', 
-      (item) => ({key: item.Name, num: item.CarrierId}), 
-      this);
-    */
-
-    
-/*
-      callFetch('https://' + MAIN_HOST + PLANES_REQUEST, 
-      HEADERS, 
-      PLANES_TAB_INDEX,
-      'Places',
-      (item) => ({key: item.PlaceName, num: item.PlaceId}),
-      this);
-      */
-
-/*
-          offset = offset + amountOfMarkers + 1;
-
-          callFetch(GEO_REQUEST + '?' + LIMIT_PARAM + amountOfMarkers + '&' + OFFSET_PARAM + offset,
-          undefined,
-          GEO_TAB_INDEX, 
-          undefined,
-          (item) => (
-            {
-              key: item.asset_id,
-              title: item.map_label,
-              desc: item.tma_asset_name,
-              latitude: parseFloat(item.latitude),
-              longitude: parseFloat(item.longitude)
-            }),
-          this)
-          .then(loadedAmount = loadedAmount + amountOfMarkers);  
-          
-          */

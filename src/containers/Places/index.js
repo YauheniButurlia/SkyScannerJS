@@ -3,34 +3,28 @@ import {View, Text, FlatList} from 'react-native';
 import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
-import {request_places, success_places, failure_places} from '../../actions/places';
+import {download_places} from '../../actions/places';
 
 import {styles} from './styles';
 import {fetchPlaces} from "../../services/api";
 
 class Places extends React.Component {
+
+    arrayOfPlaces = [];
+
     componentDidMount(){
-        this.props.request_places();
+        this.props.download_places();
     }
 
     componentDidUpdate(){
-        if(this.props.loading === true){
-            this._loadData();
-        }
+        this.arrayOfPlaces = this.props.data.Places.map((item) => ({key: item.PlaceName, num: item.PlaceId}));
     }
-
-    _loadData(){
-        fetchPlaces()
-                .then(responceJson => this.props.success_places(responceJson.Places.map(
-                    (item) => ({key: item.PlaceName, num: item.PlaceId}))))
-                .catch(error => this.props.failure_places(error.message));
-    }
-
+    
     render() {
         return(
         <View style={styles.container}>
             <FlatList
-                data={this.props.data}
+                data={this.arrayOfPlaces}
                 renderItem={({item}) => <Text style={styles.item}
                 onPress={() => this.props.navigation.navigate('Details',
                 {key: item.key, id: item.num})}>{item.key}</Text>}/>
@@ -40,13 +34,10 @@ class Places extends React.Component {
 
 const mapStateToProps = (state) => ({
     data: state.places.data,
-    loading: state.places.loading
 });
   
 const mapDispatchToProps = dispatch => ({
-    request_places: () => dispatch(request_places()),
-    success_places: (data) => dispatch(success_places(data)),
-    failure_places: (arror) => dispatch(failure_places(error))
+    download_places: () => dispatch(download_places())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Places));

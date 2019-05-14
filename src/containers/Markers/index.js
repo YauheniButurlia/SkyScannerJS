@@ -4,26 +4,23 @@ import {connect} from 'react-redux';
 import MapView, {Marker} from 'react-native-maps';
 import {withNavigation} from 'react-navigation';
 
-import {request_markers, success_markers, failure_markers} from '../../actions/markers';
+import {request_markers, success_markers, failure_markers, download_markers} from '../../actions/markers';
 import {fetchMarkers} from '../../services/api';
 
 import {styles} from './styles';
 
 import {INITIAL_REGION} from '../../constants/constants';
-import {GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../../config';
 
 const ICON_IMAGE = require('../../../assets/pin.png');
 
 class Markers extends React.Component {
 
     componentDidMount(){
-        this.props.request_markers();
+        this.props.download_markers();
     }
 
     componentDidUpdate(){
-        if(this.props.loading === true){
-            this._loadData();
-        }
+        
     }
 
     _loadData(){
@@ -62,13 +59,10 @@ class Markers extends React.Component {
 
 const mapStateToProps = (state) => ({
     data: state.markers.data,
-    loading: state.markers.loading
 });
   
 const mapDispatchToProps = dispatch => ({
-    request_markers: () => dispatch(request_markers()),
-    success_markers: (data) => dispatch(success_markers(data)),
-    failure_markers: (error) => dispatch(failure_markers(error))
+    download_markers: () => dispatch(download_markers())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Markers));
