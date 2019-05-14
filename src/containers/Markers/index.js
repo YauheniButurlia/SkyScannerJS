@@ -10,7 +10,6 @@ import {fetchMarkers} from '../../services/api';
 import {styles} from './styles';
 
 import {INITIAL_REGION} from '../../constants/constants';
-import {GEO_REQUEST, LIMIT_PARAM, OFFSET_PARAM} from '../../config';
 
 const ICON_IMAGE = require('../../../assets/pin.png');
 
@@ -31,7 +30,7 @@ class Markers extends React.Component {
             .then(responceJson => this.props.success_markers(responceJson.map(
             (item) => (
             {
-                key: item.asset_id,
+                //key: item.asset_id,
                 title: item.map_label,
                 desc: item.tma_asset_name,
                 latitude: parseFloat(item.latitude),

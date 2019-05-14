@@ -21,9 +21,9 @@ class Places extends React.Component {
 
     _loadData(){
         fetchPlaces()
-                .then(responceJson => this.props.success_places(responceJson.Places.map(
-                    (item) => ({key: item.PlaceName, num: item.PlaceId}))))
-                .catch(error => this.props.failure_places(error.message));
+            .then(responceJson => this.props.success_places(responceJson.Places.map(
+                (item) => ({key: item.PlaceName, num: item.PlaceId}))))
+            .catch(error => this.props.failure_places(error.message));
     }
 
     render() {

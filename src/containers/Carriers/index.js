@@ -22,9 +22,9 @@ class Carriers extends React.Component {
 
     _loadData(){
         fetchCarriers()
-                .then(responceJson => this.props.success_carriers(responceJson.Carriers.map(
-                    (item) => ({key: item.Name, num: item.CarrierId}))))
-                .catch(error => this.props.failure_carriers(error.message));
+            .then(responceJson => this.props.success_carriers(responceJson.Carriers.map(
+                (item) => ({key: item.Name, num: item.CarrierId}))))
+            .catch(error => this.props.failure_carriers(error.message));
     }
 
     render() {
