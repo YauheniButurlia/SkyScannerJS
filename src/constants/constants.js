@@ -11,6 +11,7 @@ export const OFFSET_PARAM = '$offset=';
 export const CARRIERS_TAB_INDEX = 0;
 export const PLANES_TAB_INDEX = 1;
 export const GEO_TAB_INDEX = 2;
+export const CALC_TAB_INDEX = 3;
 
 export const HEADERS = {
     'X-RapidAPI-Host': MAIN_HOST,

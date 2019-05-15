@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, FlatList, Button, TextInput} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 

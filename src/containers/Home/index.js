@@ -1,13 +1,14 @@
 import React from 'react';
-import {Button, Dimensions} from 'react-native';
+import {View, Button, Dimensions} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import {connect} from 'react-redux';
 
-import { GEO_TAB_INDEX, PLANES_TAB_INDEX, CARRIERS_TAB_INDEX} from '../../constants/constants'
+import { GEO_TAB_INDEX, PLANES_TAB_INDEX, CARRIERS_TAB_INDEX, CALC_TAB_INDEX} from '../../constants/constants'
 
 import Carriers from '../Carriers';
 import Markers from '../Markers';
 import Places from '../Places';
+import Calc from '../Calc';
 
 import {change_tab} from '../../actions/nav';
 
@@ -28,7 +29,8 @@ export class Home extends React.Component {
         routes: [
           { key: CARRIERS_TAB_INDEX, title: 'Carriers' },
           { key: PLANES_TAB_INDEX, title: 'Places' },
-          { key: GEO_TAB_INDEX, title: 'GeoPoints'}
+          { key: GEO_TAB_INDEX, title: 'Geo'},
+          { key: CALC_TAB_INDEX, title: 'Calc'}
         ],
       };
 
@@ -40,6 +42,8 @@ export class Home extends React.Component {
             return <Places />;
           case GEO_TAB_INDEX:
             return <Markers />;
+          case CALC_TAB_INDEX:
+            return <Calc />
           default:
             return null;
         }
