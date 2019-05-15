@@ -8,7 +8,7 @@ import {download_carriers} from '../../actions/carriers';
 
 import Card from '../../components/Card';
 import {styles} from './styles';
-import FloatingActionButton from "../../components/FloatingActionButton";
+import FloatingActionButton from "../../components/FAB";
 
 class Carriers extends React.Component {
 

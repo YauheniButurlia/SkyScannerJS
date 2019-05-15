@@ -4,8 +4,6 @@ import {connect} from 'react-redux';
 import MapView, {Marker} from 'react-native-maps';
 import {withNavigation} from 'react-navigation';
 
-import FloatingActionButton from '../../components/FloatingActionButton';
-
 import {download_markers} from '../../actions/markers';
 
 import {styles} from './styles';

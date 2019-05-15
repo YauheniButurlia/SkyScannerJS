@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
 import Card from '../../components/Card';
-import FloatingActionButton from "../../components/FloatingActionButton";
+import FloatingActionButton from "../../components/FAB";
 import MyModal from "../../components/MyModal";
 
 import {download_places, add_place} from '../../actions/places';
