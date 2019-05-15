@@ -9,61 +9,18 @@ import Carriers from '../Carriers';
 import Markers from '../Markers';
 import Places from '../Places';
 
-import {request_carriers, delete_carriers} from '../../actions/carriers';
-import {request_markers, delete_markers} from '../../actions/markers';
-import {request_places, delete_places} from '../../actions/places';
 import {change_tab} from '../../actions/nav';
 
 export class Home extends React.Component {
 
     static navigationOptions = ({navigation}) => {
       return {
-        title: 'Skyscanner',
-
-        headerRight: <Button title={'Del'}
-        onPress={navigation.getParam('delete')}/>,
-
-        headerLeft: <Button title={'Get'} 
-        onPress={navigation.getParam('download')}/>
+        title: 'AwesomeApp',
       }
     }
 
     componentDidMount() {
-      this.props.navigation.setParams({ download: this._download, delete: this._delete});
-    }
-
-    _download = (id) => {
-      const index = this.state.index;
-      switch(index) {
-        case CARRIERS_TAB_INDEX:
-          this.props.request_carriers();
-          break;
-        case PLANES_TAB_INDEX:
-          this.props.request_places();
-          break;
-        case GEO_TAB_INDEX:
-          this.props.request_markers();
-          break;
-        default:
-          break;
-      }
-    }
-
-    _delete = () => {
-      const index = this.state.index;
-      switch(index) {
-        case CARRIERS_TAB_INDEX:
-          this.props.delete_carriers();
-          break;
-        case PLANES_TAB_INDEX:
-          this.props.delete_places();
-          break;
-        case GEO_TAB_INDEX:
-          this.props.delete_markers();
-          break;
-        default:
-          break;
-      }
+      
     }
 
     state = {
@@ -94,7 +51,7 @@ export class Home extends React.Component {
             <TabView
                 navigationState={this.state}
                 renderScene={this._renderScene}
-                onIndexChange={index => {this.setState({ index })}}//;this.props.change_tab(index)
+                onIndexChange={index => {this.setState({ index });this.props.change_tab(index)}}
                 initialLayout={{ width: Dimensions.get('window').width }}
              />
         );
@@ -103,19 +60,11 @@ export class Home extends React.Component {
 /********************************************************************************************/
 
 const mapStateToProps = (state) => ({
+
 });
 
 const mapDispatchToProps = dispatch => ({
   change_tab: (index) => dispatch(change_tab(index)),
-
-  request_carriers: () => dispatch(request_carriers()),
-  delete_carriers: () => dispatch(delete_carriers()),
-
-  request_places: () => dispatch(request_places()),
-  delete_places: () => dispatch(delete_places()),
-
-  request_markers: () => dispatch(request_markers()),
-  delete_markers: () => dispatch(delete_markers()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

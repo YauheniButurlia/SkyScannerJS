@@ -1,11 +1,10 @@
 import React from "react";
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import MapView, {Marker} from 'react-native-maps';
 import {withNavigation} from 'react-navigation';
 
-import {request_markers, success_markers, failure_markers} from '../../actions/markers';
-import {fetchMarkers} from '../../services/api';
+import {download_markers} from '../../actions/markers';
 
 import {styles} from './styles';
 
@@ -16,27 +15,11 @@ const ICON_IMAGE = require('../../../assets/pin.png');
 class Markers extends React.Component {
 
     componentDidMount(){
-        
+        this.props.download_markers();
     }
 
     componentDidUpdate(){
-        if(this.props.loading === true){
-            this._loadData();
-        }
-    }
 
-    _loadData(){
-        fetchMarkers()
-            .then(responceJson => this.props.success_markers(responceJson.map(
-            (item) => (
-            {
-                //key: item.asset_id,
-                title: item.map_label,
-                desc: item.tma_asset_name,
-                latitude: parseFloat(item.latitude),
-                longitude: parseFloat(item.longitude)
-            }))))
-            .catch(error => this.props.failure_markers(error.message))
     }
 
     render() {
@@ -61,13 +44,10 @@ class Markers extends React.Component {
 
 const mapStateToProps = (state) => ({
     data: state.markers.data,
-    loading: state.markers.loading
 });
   
 const mapDispatchToProps = dispatch => ({
-    request_markers: () => dispatch(request_markers()),
-    success_markers: (data) => dispatch(success_markers(data)),
-    failure_markers: (error) => dispatch(failure_markers(error))
+    download_markers: () => dispatch(download_markers())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Markers));

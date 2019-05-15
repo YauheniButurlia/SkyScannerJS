@@ -1,56 +1,63 @@
 import React from "react";
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Modal, Alert} from 'react-native';
 import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
-import {request_carriers, success_carriers, failure_carriers} from '../../actions/carriers';
-import {fetchCarriers} from '../../services/api';
+import {download_carriers, add_carrier} from '../../actions/carriers';
 
+
+import Card from '../../components/Card';
+import TwoRowModal from '../../components/MyModal'
 import {styles} from './styles';
+import FloatingActionButton from "../../components/FAB";
 
 class Carriers extends React.Component {
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            modalVisible: false,
+        };
+
+        this.toggle = this.toggle.bind(this);
+    }
+    
+    toggle() {
+        this.setState({modalVisible: !this.state.modalVisible});
+    }
+    
     componentDidMount(){
-        
-    }
-
-    componentDidUpdate(){
-        if(this.props.loading === true){
-            this._loadData();
-        }
-    }
-
-    _loadData(){
-        fetchCarriers()
-            .then(responceJson => this.props.success_carriers(responceJson.Carriers.map(
-                (item) => ({key: item.Name, num: item.CarrierId}))))
-            .catch(error => this.props.failure_carriers(error.message));
+        this.props.download_carriers();
     }
 
     render() {
         return(
         <View style={styles.container}>
+            <TwoRowModal
+                addHandler={this.props.add_carrier}
+                cancelHandler={this.toggle}
+                isVisible={this.state.modalVisible}
+                firstField={'Carrier'}
+                secondField={'CarrierID'}
+                />
             <FlatList
                 data={this.props.data}
                 renderItem={({item}) => 
-                <Text style={styles.item}
-                    onPress={
-                        () => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}>
-                        {item.key}
-                </Text>}/>
-            </View>);
+                    <Card data={item} onPress={() => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}/>
+                }/>
+            <FloatingActionButton onPress={() => this.toggle()}/>
+        </View>);
     }
 }
 
 const mapStateToProps = (state) => ({
-    data: state.carriers.data,
-    loading: state.carriers.loading
+    data: state.carriers.data
 });
   
 const mapDispatchToProps = dispatch => ({
-    request_carriers: () => dispatch(request_carriers()),
-    success_carriers: (data) => dispatch(success_carriers(data)),
-    failure_carriers: (error) => dispatch(failure_carriers(error))
+    add_carrier: (data) => dispatch(add_carrier(data)),
+    download_carriers: () => dispatch(download_carriers())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Carriers));

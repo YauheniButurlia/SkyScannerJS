@@ -1,4 +1,5 @@
-import {REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES, DELETE_PLACES} from '../constants/actionTypes';
+import {ADD_PLACE, REQUEST_PLACES, SUCCESS_PLACES, FAILURE_PLACES, DELETE_PLACES} from '../constants/actionTypes';
+import {PLACES_ENDPOINT, REQUEST_OPTIONS} from '../config';
 
 export const request_places = () => ({
     type: REQUEST_PLACES,
@@ -13,4 +14,19 @@ export const request_places = () => ({
   });
   export const delete_places = () => ({
     type: DELETE_PLACES,
+  });
+  export const add_place = (data) => ({
+    type: ADD_PLACE,
+    data: data
+  });
+
+
+  export const download_places = () => ({
+    endpoint: PLACES_ENDPOINT,
+    options: REQUEST_OPTIONS,
+    types: [
+      REQUEST_PLACES,
+      SUCCESS_PLACES,
+      FAILURE_PLACES
+    ]
   });
