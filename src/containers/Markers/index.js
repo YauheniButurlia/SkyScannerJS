@@ -19,7 +19,7 @@ class Markers extends React.Component {
     }
 
     componentDidUpdate(){
-        
+
     }
 
     render() {
