@@ -5,7 +5,7 @@ import {withNavigation} from 'react-navigation';
 
 import Card from '../../components/Card';
 import FloatingActionButton from "../../components/FAB";
-import MyModal from "../../components/MyModal";
+import TwoRowModal from "../../components/MyModal";
 
 import {download_places, add_place} from '../../actions/places';
 
@@ -20,23 +20,23 @@ class Places extends React.Component {
             modalVisible: false,
         };
 
-        this.toogle = this.toogle.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount(){
         this.props.download_places();
     }
 
-    toogle() {
+    toggle() {
         this.setState({modalVisible: !this.state.modalVisible});
     }
     
     render() {
         return(
         <View style={styles.container}>
-            <MyModal
+            <TwoRowModal
                 addHandler={this.props.add_place}
-                cancelHandler={this.toogle}
+                cancelHandler={this.toggle}
                 isVisible={this.state.modalVisible}
                 firstField={'Place'}
                 secondField={'PlaceID'}
@@ -50,7 +50,7 @@ class Places extends React.Component {
                     />
                 }
             />
-            <FloatingActionButton onPress={() => this.toogle()}/>
+            <FloatingActionButton onPress={() => this.toggle()}/>
         </View>);
     }
 }

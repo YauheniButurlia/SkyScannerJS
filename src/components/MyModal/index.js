@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import {styles} from './styles';
 import InputField from '../InputField';
 
-export default class MyModal extends React.Component {
+export default class TwoRowModal extends React.Component {
 
     constructor(props){
         super(props);
@@ -24,8 +24,12 @@ export default class MyModal extends React.Component {
                     <View style={styles.content}>
 
                         <View style={styles.fieldsContainer}>
-                            <InputField field={this.props.firstField} onChangeText={(text) => this.setState({name: text})}/>
-                            <InputField field={this.props.secondField} onChangeText={(text) => this.setState({details: text})}/>
+                            <InputField 
+                                field={this.props.firstField} 
+                                onChangeText={(text) => this.setState({name: text})}/>
+                            <InputField 
+                                field={this.props.secondField} 
+                                onChangeText={(text) => this.setState({details: text})}/>
                         </View>
 
                         <View style={styles.buttonsContainer}>

@@ -1,4 +1,4 @@
-import {REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS, DELETE_CARRIERS} from '../constants/actionTypes';
+import {ADD_CARRIER, REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS, DELETE_CARRIERS} from '../constants/actionTypes';
 
 export default function carriers(state = {data: [], error: '', loading: false}, action) {
     switch(action.type){
@@ -10,7 +10,7 @@ export default function carriers(state = {data: [], error: '', loading: false}, 
         case SUCCESS_CARRIERS:
             return {
                 ...state, 
-                data: action.data.Carriers.map((item) => ({key: item.Name, num: item.CarrierId})), 
+                data: [...action.data.Carriers.map((item) => ({key: item.Name, num: item.CarrierId})), ...state.data], 
                 loading: false
             };
         case FAILURE_CARRIERS:
@@ -25,6 +25,11 @@ export default function carriers(state = {data: [], error: '', loading: false}, 
                 error: '', 
                 loading: false
             };
+        case ADD_CARRIER:
+            return {
+                ...state,
+                data: [action.data, ...state.data]
+            }
         default:
             return state;
     }

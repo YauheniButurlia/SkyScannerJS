@@ -1,4 +1,4 @@
-import {REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS,DELETE_CARRIERS} from '../constants/actionTypes';
+import {ADD_CARRIER, REQUEST_CARRIERS, SUCCESS_CARRIERS, FAILURE_CARRIERS,DELETE_CARRIERS} from '../constants/actionTypes';
 import {CARRIERS_ENDPOINT, REQUEST_OPTIONS} from '../config';
 
 export const request_carriers = () => ({
@@ -14,6 +14,11 @@ export const request_carriers = () => ({
   });
   export const delete_carriers = () => ({
     type: DELETE_CARRIERS,
+  });
+
+  export const add_carrier = (data) => ({
+    type: ADD_CARRIER,
+    data: data
   });
   
 
