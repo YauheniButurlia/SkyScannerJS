@@ -29,6 +29,8 @@ function callAPI(endpoint, requestOptions){
 export const apiMiddleware = store => next => action => {
     const {types, endpoint, options} = action;
 
+    console.log(action.type);
+
     if(!endpoint && !types && action.type){
         return next(action);
     }

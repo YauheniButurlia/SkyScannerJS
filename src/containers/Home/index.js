@@ -15,7 +15,7 @@ export class Home extends React.Component {
 
     static navigationOptions = ({navigation}) => {
       return {
-        title: 'Skyscanner',
+        title: 'AwesomeApp',
       }
     }
 

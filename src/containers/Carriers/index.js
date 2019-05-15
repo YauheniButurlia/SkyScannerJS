@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Modal, Alert} from 'react-native';
 import { connect } from 'react-redux';
 import {withNavigation} from 'react-navigation';
 
@@ -8,8 +8,17 @@ import {download_carriers} from '../../actions/carriers';
 
 import Card from '../../components/Card';
 import {styles} from './styles';
+import FloatingActionButton from "../../components/FloatingActionButton";
 
 class Carriers extends React.Component {
+
+    state = {
+        modalVisible: false,
+    };
+    
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+    }
     
     componentDidMount(){
         this.props.download_carriers();
@@ -22,21 +31,16 @@ class Carriers extends React.Component {
     render() {
         return(
         <View style={styles.container}>
+        
             <FlatList
                 data={this.props.data}
                 renderItem={({item}) => 
-                <Card item={item}/>}/>
-            </View>);
+                    <Card data={item} onPress={() => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}/>
+                }/>
+            <FloatingActionButton onPress={() => Alert.alert('Hi there')}/>
+        </View>);
     }
 }
-
-/*
-<Text style={styles.item}
-                    onPress={
-                        () => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}>
-                        {item.key}
-                </Text>
-*/
 
 const mapStateToProps = (state) => ({
     data: state.carriers.data

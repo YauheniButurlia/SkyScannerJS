@@ -8,4 +8,12 @@ export const styles = StyleSheet.create({
       height: 44,
       borderWidth: 2
     },
+    content: {
+      backgroundColor: 'white',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
+  }
   });

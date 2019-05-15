@@ -1,12 +1,25 @@
 import React from "react";
-import {Text,StyleSheet, View} from 'react-native';
+import {Text,StyleSheet, View, Alert, TouchableOpacity} from 'react-native';
 
 export default class Card extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
     render() {
         return(
-            <View style={styles.container}>
-                <Text style={styles.item}>{this.props.item.key}</Text>
-            </View>);
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={this.props.onPress}>
+                        <View>
+                            <Text style={styles.item}>
+                                {this.props.data.key}
+                            </Text>
+                            <Text style={styles.item}>
+                                {this.props.data.num}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>);
     }
 }
 

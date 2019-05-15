@@ -14,4 +14,6 @@ export const DELETE_CARRIERS = 'DELETE_CARRIERS';
 export const DELETE_PLACES = 'DELETE_PLACES';
 export const DELETE_MARKERS = 'DELETE_MARKERS';
 
+export const ADD_PLACE = 'ADD_PLACE';
+
 export const CHANGE_TAB = 'CHANGE_TAB';
