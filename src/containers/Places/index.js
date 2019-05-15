@@ -43,7 +43,13 @@ class Places extends React.Component {
                 />
             <FlatList
                 data={this.props.data}
-                renderItem={({item}) => <Card data={item} onPress={() => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}/>}/>
+                renderItem={({item}) => 
+                    <Card 
+                        data={item} 
+                        onPress={() => this.props.navigation.navigate('Details', {key: item.key, id: item.num})}
+                    />
+                }
+            />
             <FloatingActionButton onPress={() => this.toogle()}/>
         </View>);
     }
