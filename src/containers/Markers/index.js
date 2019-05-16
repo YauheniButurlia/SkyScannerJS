@@ -26,7 +26,6 @@ class Markers extends React.Component {
         return(
             <View style={styles.container}>
                 <MapView
-                    cacheEnabled={true}
                     style={styles.map}
                     initialRegion={INITIAL_REGION}>
                         {this.props.data.map((marker, index) => 
