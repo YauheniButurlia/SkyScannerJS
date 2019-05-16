@@ -39,6 +39,30 @@ class Calc extends React.Component {
                         initialValue={20}
                         step={1}
                         />
+                    <Chooser 
+                        name={'Height'}
+                        unit={'m'}
+                        minValue={1}
+                        maxValue={100}
+                        initialValue={50}
+                        step={1}
+                        />
+                    <Chooser 
+                        name={'Speed'}
+                        unit={'km/s'}
+                        minValue={1}
+                        maxValue={300}
+                        initialValue={150}
+                        step={1}
+                        />
+                    <Chooser 
+                        name={'Sleep'}
+                        unit={'h'}
+                        minValue={1}
+                        maxValue={8}
+                        initialValue={4}
+                        step={1}
+                        />
                 </View>
                 <View style={styles.sliderContainer}>
                     <FlatList

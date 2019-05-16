@@ -16,7 +16,7 @@ export default class Chooser extends React.Component {
 
     validateInput(text) {
         if(text === ''){
-            return 2;
+            return this.props.initialValue;
         }
         return parseInt(text);
     }
