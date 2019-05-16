@@ -1,8 +1,10 @@
 import React from 'react';
 import {Text, View, FlatList, TouchableOpacity, Alert, Image} from 'react-native';
+import { withNavigation } from 'react-navigation';
+
+import Chooser from '../../components/Chooser';
 
 import {styles} from './styles';
-import { withNavigation } from 'react-navigation';
 
 class Calc extends React.Component {
     images = [
@@ -29,7 +31,14 @@ class Calc extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.progressContainer}>
-                    
+                    <Chooser 
+                        name={'Time fix'}
+                        unit={'h'}
+                        minValue={1}
+                        maxValue={40}
+                        initialValue={20}
+                        step={1}
+                        />
                 </View>
                 <View style={styles.sliderContainer}>
                     <FlatList
