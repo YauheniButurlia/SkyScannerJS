@@ -38,7 +38,7 @@ export default class Chooser extends React.Component {
                         <View style={styles.wideTextFieldPlusBorder}>
                             <TextInput
                                 keyboardType={'numeric'}
-                                onSubmitEditing={({text}) => this.setState({quantity: this.validateInput(text)})}
+                                onSubmitEditing={(e) => this.setState({quantity: this.validateInput(e.nativeEvent.text)})}
                                 placeholder={String(this.state.quantity)}
                                 style={styles.textStyle}/>
                         </View>
