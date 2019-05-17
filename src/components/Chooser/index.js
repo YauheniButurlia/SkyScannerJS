@@ -15,7 +15,8 @@ export default class Chooser extends React.Component {
     }
 
     validateInput(text) {
-        if(text === ''){
+        if(isNaN(text)){
+            this.textInput.clear();
             return this.props.initialValue;
         }
         return parseInt(text);
@@ -36,7 +37,7 @@ export default class Chooser extends React.Component {
 
                     <View style={styles.halfUp}>
                         <View style={styles.wideTextFieldPlusBorder}>
-                            <TextInput
+                            <TextInput ref={input => { this.textInput = input }}
                                 keyboardType={'numeric'}
                                 onSubmitEditing={(e) => this.setState({quantity: this.validateInput(e.nativeEvent.text)})}
                                 placeholder={String(this.state.quantity)}
