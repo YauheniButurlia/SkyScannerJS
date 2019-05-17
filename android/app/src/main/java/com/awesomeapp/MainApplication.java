@@ -1,4 +1,4 @@
-package com.skyscanner;
+package com.awesomeapp;
 
 import android.app.Application;
 
