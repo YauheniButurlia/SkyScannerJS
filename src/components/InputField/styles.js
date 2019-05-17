@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
     textInputStyle: {
         height: 60
     },
-    field: {
-        flexDirection: 'row',
+    fieldContainer: {
+        width:'100%',
+        flexDirection: 'column',
     }
   });

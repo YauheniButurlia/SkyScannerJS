@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
     content: {
-      backgroundColor: 'white',
+      backgroundColor: 'yellow',
       padding: 22,
       justifyContent: 'center',
       alignItems: 'center',
@@ -16,8 +16,9 @@ export const styles = StyleSheet.create({
         color: "#FF0000"
     },
     buttonsContainer: {
+        width:'100%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     fieldsContainer: {
         justifyContent: 'center',
