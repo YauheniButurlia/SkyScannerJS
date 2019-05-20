@@ -44,7 +44,7 @@ export class Home extends React.Component {
     };
 
     componentDidMount() {
-      this.props.navigation.setParams({ settings: this.toggleSettings, visible: this.state.settingsVisible});
+      this.props.navigation.setParams({ settings: this.toggleSettings});
     }
 
       _renderScene = ({ route }) => {
