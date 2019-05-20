@@ -5,10 +5,20 @@ import {styles} from './styles';
 import { request_carriers } from '../../actions/carriers';
 
 const menuButton = require('../../../assets/menu2.png');
-const closeButton = require('../../../assets/closeButton.png');
+const closeButton = require('../../../assets/exit2.png');
 let imageSource = menuButton;
 
 export default class Header extends React.Component {
+
+    _setImage() {
+        if(imageSource === menuButton) {
+            imageSource = closeButton;
+            this.forceUpdate();
+        } else {
+            imageSource = menuButton;
+            this.forceUpdate();
+        }
+    }
  
     render() {
         return (
@@ -22,7 +32,7 @@ export default class Header extends React.Component {
                     </Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => this.props.toggleSettings()} style={styles.settingsButton}>
+                    <TouchableOpacity onPress={() => {this.props.toggleSettings();this._setImage()}} style={styles.settingsButton}>
                         <Image source={imageSource}/>
                     </TouchableOpacity>
                 </View>
