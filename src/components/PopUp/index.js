@@ -2,13 +2,21 @@ import React from "react";
 import {View, FlatList, Text} from 'react-native';
 import Modal from 'react-native-modal';
 
-export default class PopUp extends React.Component {
+import {styles} from './styles';
+import { withNavigation } from "react-navigation";
+
+class PopUp extends React.Component {
     data = [{name: 'Save'},{name: 'Load'},{name: 'New'},{name: 'Eport'},{name: 'Settings'},{name: 'About'}];
+    _pressHandler(index){
+      if(index === 5) {
+        this.props.navigation.navigate('About');
+      }
+    }
     render() {
         return (
               <Modal
                 backdropOpacity={0}
-                style={{backgroundColor: 'white', height:'100%', width: '90%'}}
+                style={styles.modal}
                 animationIn="slideInDown"
                 animationOut="slideOutUp"
                 hideModalContentWhileAnimating={true}
@@ -19,8 +27,12 @@ export default class PopUp extends React.Component {
                 <View>
                   <FlatList 
                     data={this.data.map((item, index) => ({name: item.name, key: String(index)}))}
-                    renderItem={({item}) => 
-                      <Text style={{padding: 10, fontSize: 18, height: 44}}>{item.name}</Text>
+                    renderItem={({item, index}) => 
+                    <View style={{borderBottomWidth:1, alignItems: 'center'}}>
+                      <Text onPress={() => this._pressHandler(index)} style={styles.item}>
+                        {item.name}
+                      </Text>
+                    </View>
                     }/>
                 </View>
 
@@ -28,3 +40,5 @@ export default class PopUp extends React.Component {
               );      
     }
 }
+
+export default withNavigation(PopUp);
