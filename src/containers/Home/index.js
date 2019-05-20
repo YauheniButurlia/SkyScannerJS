@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Alert, View, Button, Dimensions, Text, ToolbarAndroid} from 'react-native';
+import {FlatList, View, Button, Dimensions, Text, TouchableNativeFeedback} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import {connect} from 'react-redux';
 import Modal from 'react-native-modal';
@@ -43,7 +43,7 @@ export class Home extends React.Component {
     };
 
     componentDidMount() {
-      this.props.navigation.setParams({ settings: this.toggleSettings });
+      this.props.navigation.setParams({ settings: this.toggleSettings});
     }
 
       _renderScene = ({ route }) => {
@@ -64,30 +64,34 @@ export class Home extends React.Component {
    
     render() {
         return (
-            <View style={{flex:1}}>
-              <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                <Modal
-                  backdropOpacity={0}
-                  style={{backgroundColor: 'white', height:200, width: '70%'}}
-                  animationIn="slideInDown"
-                  animationOut="slideOutUp"
-                  hideModalContentWhileAnimating={true}
-                  useNativeDriver={true}
-                  coverScreen={false}
-                  isVisible={this.state.settingsVisible}>
-                  <TouchableOpacity onPress={() => this.toggleSettings()}>
-                    <View style={{borderRadius: 20, backgroundColor: 'white', height:300, width: '70%'}}>
-                      <Text>
-                        asdasd
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </Modal>
-              </View>  
+            <View style={{flex:1, justifyContent: 'center'}}>
+              <Modal
+                backdropOpacity={0}
+                style={{backgroundColor: 'white', height:'100%', width: '90%'}}
+                animationIn="slideInDown"
+                animationOut="slideOutUp"
+                hideModalContentWhileAnimating={true}
+                useNativeDriver={true}
+                coverScreen={false}
+                isVisible={this.state.settingsVisible}>
+               
+                  <View>
+                    <FlatList 
+                      data={[{name: 'Save'},{name: 'Load'},{name: 'New'},{name: 'Eport'},{name: 'Settings'},{name: 'About'}]}
+                      renderItem={({item}) => 
+                        <Text style={{padding: 10, fontSize: 18, height: 44, borderWidth: 2}}>{item.name}</Text>
+                      }/>
+                  </View>
+
+              </Modal>
               <TabView
                   navigationState={this.state}
                   renderScene={this._renderScene}
-                  onIndexChange={index => {this.setState({ index });this.props.change_tab(index)}}
+                  onIndexChange={index => {
+                    this.setState({ index });
+                    this.props.change_tab(index)
+                    }
+                  }
                   initialLayout={{ width: Dimensions.get('window').width }}
               />
              </View>
