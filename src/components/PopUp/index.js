@@ -1,5 +1,5 @@
 import React from "react";
-import {View, FlatList, Text} from 'react-native';
+import {View, FlatList, Text, Alert} from 'react-native';
 import Modal from 'react-native-modal';
 
 import {styles} from './styles';
@@ -7,11 +7,23 @@ import { withNavigation } from "react-navigation";
 
 class PopUp extends React.Component {
     data = [{name: 'Save'},{name: 'Load'},{name: 'New'},{name: 'Eport'},{name: 'Settings'},{name: 'About'}];
+   
     _pressHandler(index){
-      if(index === 5) {
-        this.props.navigation.navigate('About');
+      switch(index) {
+        case 1:
+          this._loadSomethingBig();
+          break;
+        case 5:
+          this.props.navigation.navigate('About');
+          break;
       }
     }
+    jsonData = [];
+
+    _loadSomethingBig() {
+      
+    }
+    
     render() {
         return (
               <Modal
@@ -25,6 +37,11 @@ class PopUp extends React.Component {
                 isVisible={this.props.settingsVisible}>
             
                 <View>
+                  <FlatList 
+                    style={{height: 50}}
+                    data={this.jsonData}
+                    renderItem={({item}) => <Text>{item.name}</Text>}
+                    />
                   <FlatList 
                     data={this.data.map((item, index) => ({name: item.name, key: String(index)}))}
                     renderItem={({item, index}) => 

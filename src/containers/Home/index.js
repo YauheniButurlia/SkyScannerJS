@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, View, Button, Dimensions, Text, TouchableNativeFeedback} from 'react-native';
+import {ProgressBarAndroid, FlatList, View, Button, Dimensions, Text, TouchableNativeFeedback} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import {connect} from 'react-redux';
 import Modal from 'react-native-modal';
@@ -24,7 +24,7 @@ export class Home extends React.Component {
         settingsVisible: false,
         index: 0,
         routes: [
-          { key: CARRIERS_TAB_INDEX, title: 'Carriers' },
+          { key: CARRIERS_TAB_INDEX, title: 'Carr' },
           { key: PLANES_TAB_INDEX, title: 'Places' },
           { key: GEO_TAB_INDEX, title: 'Geo'},
           { key: CALC_TAB_INDEX, title: 'Calc'}
@@ -66,6 +66,7 @@ export class Home extends React.Component {
     render() {
         return (
             <View style={{flex:1, justifyContent: 'center'}}>
+              <ProgressBarAndroid styleAttr="Horizontal" color="#2196F3"/>
               <PopUp settingsVisible={this.state.settingsVisible}/>
               <TabView
                   navigationState={this.state}
