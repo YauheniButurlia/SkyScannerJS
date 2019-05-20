@@ -11,6 +11,7 @@ import Markers from '../Markers';
 import Places from '../Places';
 import Calc from '../Calc';
 import Header from '../../components/Header';
+import PopUp from '../../components/PopUp'
 
 import {change_tab} from '../../actions/nav';
 
@@ -65,25 +66,7 @@ export class Home extends React.Component {
     render() {
         return (
             <View style={{flex:1, justifyContent: 'center'}}>
-              <Modal
-                backdropOpacity={0}
-                style={{backgroundColor: 'white', height:'100%', width: '90%'}}
-                animationIn="slideInDown"
-                animationOut="slideOutUp"
-                hideModalContentWhileAnimating={true}
-                useNativeDriver={true}
-                coverScreen={false}
-                isVisible={this.state.settingsVisible}>
-               
-                  <View>
-                    <FlatList 
-                      data={[{name: 'Save'},{name: 'Load'},{name: 'New'},{name: 'Eport'},{name: 'Settings'},{name: 'About'}]}
-                      renderItem={({item}) => 
-                        <Text style={{padding: 10, fontSize: 18, height: 44, borderWidth: 2}}>{item.name}</Text>
-                      }/>
-                  </View>
-
-              </Modal>
+              <PopUp settingsVisible={this.state.settingsVisible}/>
               <TabView
                   navigationState={this.state}
                   renderScene={this._renderScene}
